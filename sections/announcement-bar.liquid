@@ -1,0 +1,411 @@
+{% comment %} sections/announcement-bar.liquid {% endcomment %}
+
+{%- if section.settings.show_announcement_bar and section.blocks.size > 0 -%}
+  <style>
+    .announcement-bar-section {
+      --bg-color: {{ section.settings.background_color }};
+      --text-color: {{ section.settings.text_color }};
+      --btn-bg-color: {{ section.settings.button_background }};
+      --btn-text-color: {{ section.settings.button_text }};
+
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      position: relative;
+      z-index: 20;
+      border-bottom: 1px solid rgba(var(--text-color), 0.05);
+    }
+
+    .announcement-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 4rem;
+      padding: 0.8rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .announcement-slider {
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .announcement-slider__list {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      position: relative;
+      display: flex;
+    }
+
+    .announcement-slider__slide {
+      width: 100%;
+      flex-shrink: 0;
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 0.5s ease-in-out
+      , visibility 0.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .announcement-slider__slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+    }
+
+    .announcement-bar__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 80rem;
+      margin: 0 auto;
+    }
+
+    @media screen and (min-width: 750px) {
+      .announcement-bar__content {
+        flex-direction: row;
+        gap: 2rem;
+      }
+    }
+
+    .announcement-bar__text {
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .announcement-bar__text a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 0.3rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .announcement-bar__text a:hover {
+      opacity: 0.7;
+    }
+
+    .announcement-bar__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--btn-bg-color);
+      color: var(--btn-text-color);
+      padding: 0.6rem 1.6rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--btn-bg-color);
+      border-radius: 0.2rem;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .announcement-bar__btn:hover {
+      background-color: transparent;
+      color: var(--btn-bg-color);
+    }
+
+    .announcement-bar__btn:focus-visible {
+      outline: 2px solid var(--text-color);
+      outline-offset: 2px;
+    }
+
+    /* Slider Controls */
+    .announcement-slider__controls {
+      display: flex;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+      padding: 0 1rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .announcement-slider__controls {
+        padding: 0 2rem;
+      }
+    }
+
+    .announcement-slider__button {
+      background: transparent;
+      border: none;
+      color: var(--text-color);
+      width: 3.2rem;
+      height: 3.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 0.6;
+      transition: opacity 0.2s ease
+      , transform 0.2s ease;
+      padding: 0;
+    }
+
+    .announcement-slider__button:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .announcement-slider__button:focus-visible {
+      outline: 2px solid var(--text-color);
+      outline-offset: -2px;
+    }
+
+    .announcement-slider__button svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+  </style>
+
+  <div
+    class="announcement-bar-section"
+    role="region"
+    aria-label="Announcement">
+    <announcement-slider
+      class="announcement-bar"
+      data-auto-play="{{ section.settings.auto_rotate }}"
+      data-speed="{{ section.settings.rotation_speed | times: 1000 }}"
+      data-block-count="{{ section.blocks.size }}">
+      <div class="announcement-slider">
+        <ul
+          class="announcement-slider__list"
+          aria-live="polite"
+          aria-atomic="true">
+          {%- for block in section.blocks -%}
+            <li
+              class="announcement-slider__slide{% if forloop.first %} is-active{% endif %}"
+              id="AnnouncementSlide-{{ block.id }}"
+              aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+              {{ block.shopify_attributes }}>
+              <div class="announcement-bar__content">
+                {%- if block.settings.text != blank -%}
+                  <div class="announcement-bar__text">
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank and block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="announcement-bar__btn">
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if section.blocks.size > 1 -%}
+          <div class="announcement-slider__controls">
+            <button
+              type="button"
+              class="announcement-slider__button announcement-slider__button--prev"
+              aria-label="Previous announcement">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M15 18l-6-6 6-6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="announcement-slider__button announcement-slider__button--next"
+              aria-label="Next announcement">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M9 18l6-6-6-6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </announcement-slider>
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    <script>
+      if (!customElements.get('announcement-slider')) {
+        class AnnouncementSlider extends HTMLElement {
+          constructor() {
+            super();
+            this.slides = Array.from(this.querySelectorAll('.announcement-slider__slide'));
+            this.prevBtn = this.querySelector('.announcement-slider__button--prev');
+            this.nextBtn = this.querySelector('.announcement-slider__button--next');
+            this.liveRegion = this.querySelector('[aria-live]');
+            
+            this.currentIndex = 0;
+            this.slideCount = parseInt(this.dataset.blockCount) || 1;
+            this.autoPlay = this.dataset.autoPlay === 'true';
+            this.speed = parseInt(this.dataset.speed) || 5000;
+            this.timer = null;
+      
+            this.init();
+          }
+      
+          init() {
+            if (this.slideCount <= 1) return;
+      
+            this.prevBtn.addEventListener('click', () => this.navigate('prev'));
+            this.nextBtn.addEventListener('click', () => this.navigate('next'));
+      
+            if (this.autoPlay) {
+              this.play();
+              this.addEventListener('mouseenter', this.pause.bind(this));
+              this.addEventListener('mouseleave', this.play.bind(this));
+              this.addEventListener('focusin', this.pause.bind(this));
+              this.addEventListener('focusout', this.play.bind(this));
+            }
+          }
+      
+          navigate(direction) {
+            this.slides[this.currentIndex].classList.remove('is-active');
+            this.slides[this.currentIndex].setAttribute('aria-hidden', 'true');
+      
+            if (direction === 'next') {
+              this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+            } else {
+              this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
+            }
+      
+            this.slides[this.currentIndex].classList.add('is-active');
+            this.slides[this.currentIndex].setAttribute('aria-hidden', 'false');
+          }
+      
+          play() {
+            this.pause();
+            this.timer = setInterval(() => this.navigate('next'), this.speed);
+          }
+      
+          pause() {
+            if (this.timer) {
+              clearInterval(this.timer);
+              this.timer = null;
+            }
+          }
+        }
+        customElements.define('announcement-slider', AnnouncementSlider);
+      }
+    </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Announcement Bar",
+    "max_blocks": 5,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_announcement_bar",
+        "default": true,
+        "label": "Show announcement bar"
+      },
+      {
+        "type": "header",
+        "content": "Color Scheme"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "button_background",
+        "label": "Button background",
+        "default": "#ffffff"
+      }, {
+        "type": "color",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "#111111"
+      }, {
+        "type": "header",
+        "content": "Slider settings"
+      }, {
+        "type": "checkbox",
+        "id": "auto_rotate",
+        "default": true,
+        "label": "Auto-rotate announcements"
+      }, {
+        "type": "range",
+        "id": "rotation_speed",
+        "min": 3,
+        "max": 10,
+        "step": 1,
+        "unit": "s",
+        "label": "Rotation speed",
+        "default": 5
+      }
+    ],
+    "blocks": [
+      {
+        "type": "announcement",
+        "name": "Announcement",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "default": "<p>Welcome to our store</p>",
+            "label": "Text",
+            "info": "Use link tool to make text clickable"
+          }, {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "info": "Leave blank to hide button"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "Button link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Announcement Bar",
+        "blocks": [
+          {
+            "type": "announcement"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
