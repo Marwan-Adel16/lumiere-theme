@@ -1,0 +1,556 @@
+{% comment %} sections/testimonials.liquid {% endcomment %}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+    padding-bottom: calc({{ section.settings.padding_bottom }}px * 0.75);
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .testimonials-section {
+    background-color: {{ section.settings.background_color }};
+    color: rgb(var(--color-base-text));
+    overflow: hidden;
+  }
+
+  .testimonials__header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 0 2rem;
+  }
+
+  .testimonials__heading {
+    margin: 0;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: rgb(var(--color-base-heading));
+  }
+
+  .testimonials__slider-wrapper {
+    position: relative;
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonials__slider-wrapper {
+      padding: 0 6rem;
+    }
+  }
+
+  .testimonials__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .testimonials__track::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+  }
+
+  .testimonial-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: rgb(var(--color-base-background));
+    border: 1px solid rgba(var(--color-base-text), 0.08);
+    border-radius: 0.4rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    opacity: 0.5;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease
+    , transform 0.4s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonial-slide {
+      flex: 0 0 calc(50% - 1rem);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .testimonial-slide {
+      flex: 0 0 calc(33.333% - 1.333rem);
+    }
+  }
+
+  .testimonial-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Rating Stars */
+  .testimonial__rating {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+    color: #000000;
+  }
+
+  .testimonial__star {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .testimonial__star--filled {
+    fill: currentColor;
+  }
+
+  .testimonial__star--empty {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  /* Quote */
+  .testimonial__quote {
+    margin: 0 0 3rem;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: rgba(var(--color-base-text), 0.9);
+    flex-grow: 1;
+  }
+
+  .testimonial__quote p {
+    margin: 0;
+  }
+
+  /* Author */
+  .testimonial__author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .testimonial__avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: rgba(var(--color-base-text), 0.05);
+  }
+
+  .testimonial__avatar-placeholder {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background-color: rgba(var(--color-base-text), 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(var(--color-base-text), 0.4);
+  }
+
+  .testimonial__avatar-placeholder svg {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .testimonial__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .testimonial__name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgb(var(--color-base-heading));
+    margin: 0;
+  }
+
+  .testimonial__location {
+    font-size: 1.2rem;
+    color: rgba(var(--color-base-text), 0.6);
+  }
+
+  /* Controls */
+  .testimonials__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonials__controls {
+      padding: 0 1rem;
+    }
+  }
+
+  .testimonials__btn {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgb(var(--color-base-background));
+    border: 1px solid rgba(var(--color-base-text), 0.1);
+    color: rgb(var(--color-base-text));
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonials__btn:hover {
+    background-color: rgb(var(--color-base-text));
+    color: rgb(var(--color-base-background));
+  }
+
+  .testimonials__btn:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .testimonials__btn svg {
+    width: 2rem;
+    height: 2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+</style>
+
+<div class="testimonials-section section-{{ section.id }}-padding">
+  {%- if section.settings.heading != blank -%}
+    <div class="testimonials__header">
+      <h2 class="testimonials__heading">{{ section.settings.heading | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  <testimonial-slider
+    class="testimonials__slider-wrapper"
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="{{ section.settings.heading | escape | default: 'Testimonials' }}">
+    <div class="testimonials__track" aria-live="polite">
+      {%- for block in section.blocks -%}
+        <figure
+          class="testimonial-slide"
+          role="group"
+          aria-roledescription="slide"
+          aria-label="{{ forloop.index }} of {{ forloop.length }}"
+          {{ block.shopify_attributes }}>
+
+          <div class="testimonial__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+            {%- for i in (1..5) -%}
+              {%- if i <= block.settings.rating -%}
+                <svg
+                  class="testimonial__star testimonial__star--filled"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              {%- else -%}
+                <svg
+                  class="testimonial__star testimonial__star--empty"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <blockquote class="testimonial__quote">
+            {{ block.settings.quote }}
+          </blockquote>
+
+          <figcaption class="testimonial__author">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 120 | image_tag:
+ class: 'testimonial__avatar',
+ loading: 'lazy',
+ widths: '60, 120, 180',
+ alt: block.settings.author | escape
+              }}
+            {%- else -%}
+              <div class="testimonial__avatar-placeholder">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor">
+                  <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm9 11a1 1 0 0 1-2 0c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5a1 1 0 0 1-2 0c0-3.86 3.14-7 7-7h4c3.86 0 7 3.14 7 7z" />
+                </svg>
+              </div>
+            {%- endif -%}
+
+            <div class="testimonial__info">
+              <cite class="testimonial__name">{{ block.settings.author | escape }}</cite>
+              {%- if block.settings.location != blank -%}
+                <span class="testimonial__location">{{ block.settings.location | escape }}</span>
+              {%- endif -%}
+            </div>
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+
+    <div class="testimonials__controls">
+      <button
+        type="button"
+        class="testimonials__btn testimonials__btn--prev"
+        aria-label="Previous testimonial"
+        disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="testimonials__btn testimonials__btn--next"
+        aria-label="Next testimonial">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M9 18l6-6-6-6"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </testimonial-slider>
+</div>
+
+<script>
+  if (!customElements.get('testimonial-slider')) {
+    class TestimonialSlider extends HTMLElement {
+      constructor() {
+        super();
+        this.track = this.querySelector('.testimonials__track');
+        this.slides = Array.from(this.querySelectorAll('.testimonial-slide'));
+        this.prevBtn = this.querySelector('.testimonials__btn--prev');
+        this.nextBtn = this.querySelector('.testimonials__btn--next');
+        
+        this.isAutoplay = this.dataset.autoplay === 'true';
+        this.autoplaySpeed = parseInt(this.dataset.speed) || 5000;
+        this.autoplayTimer = null;
+        this.observer = null;
+  
+        this.init();
+      }
+  
+      init() {
+        if (!this.track || this.slides.length === 0) return;
+  
+        this.prevBtn.addEventListener('click', () => this.scroll('prev'));
+        this.nextBtn.addEventListener('click', () => this.scroll('next'));
+        this.track.addEventListener('scroll', this.updateControls.bind(this));
+        
+        // Setup Intersection Observer for active class
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-active');
+              entry.target.setAttribute('aria-hidden', 'false');
+            } else {
+              entry.target.classList.remove('is-active');
+              entry.target.setAttribute('aria-hidden', 'true');
+            }
+          });
+        }, { root: this.track, threshold: 0.6 });
+  
+        this.slides.forEach(slide => this.observer.observe(slide));
+  
+        this.updateControls();
+  
+        if (this.isAutoplay) {
+          this.startAutoplay();
+          this.addEventListener('mouseenter', this.stopAutoplay.bind(this));
+          this.addEventListener('mouseleave', this.startAutoplay.bind(this));
+          this.addEventListener('focusin', this.stopAutoplay.bind(this));
+          this.addEventListener('focusout', this.startAutoplay.bind(this));
+        }
+      }
+  
+      scroll(direction) {
+        const slideWidth = this.slides[0].clientWidth + parseInt(window.getComputedStyle(this.track).gap);
+        const scrollAmount = direction === 'next' ? slideWidth : -slideWidth;
+        this.track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+  
+      updateControls() {
+        requestAnimationFrame(() => {
+          const scrollLeft = this.track.scrollLeft;
+          const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+          
+          this.prevBtn.disabled = scrollLeft <= 0;
+          this.nextBtn.disabled = scrollLeft >= maxScroll - 5; // -5px buffer for rounding issues
+        });
+      }
+  
+      startAutoplay() {
+        this.stopAutoplay();
+        this.autoplayTimer = setInterval(() => {
+          const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+          if (this.track.scrollLeft >= maxScroll - 5) {
+            this.track.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            this.scroll('next');
+          }
+        }, this.autoplaySpeed);
+      }
+  
+      stopAutoplay() {
+        if (this.autoplayTimer) {
+          clearInterval(this.autoplayTimer);
+          this.autoplayTimer = null;
+        }
+      }
+  
+      disconnectedCallback() {
+        this.stopAutoplay();
+        if (this.observer) this.observer.disconnect();
+      }
+    }
+    customElements.define('testimonial-slider', TestimonialSlider);
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "default": "What they say",
+        "label": "Heading"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#f9f9f9"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "default": false,
+        "label": "Auto-rotate testimonials"
+      },
+      {
+        "type": "range",
+        "id": "autoplay_speed",
+        "min": 3,
+        "max": 10,
+        "step": 1,
+        "unit": "s",
+        "label": "Rotation speed",
+        "default": 5
+      }, {
+        "type": "header",
+        "content": "Section Padding"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Top padding",
+        "default": 80
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Bottom padding",
+        "default": 80
+      }
+    ],
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "range",
+            "id": "rating",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "default": 5,
+            "label": "Rating"
+          },
+          {
+            "type": "richtext",
+            "id": "quote",
+            "default": "<p>Absolutely love the quality and attention to detail. This is exactly what I was looking for. Will definitely be purchasing again!</p>",
+            "label": "Quote"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Author image",
+            "info": "Square image recommended"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "default": "Jane Doe",
+            "label": "Author name"
+          }, {
+            "type": "text",
+            "id": "location",
+            "default": "New York, USA",
+            "label": "Author location (optional)"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonials",
+        "blocks": [
+          {
+            "type": "testimonial"
+          }, {
+            "type": "testimonial"
+          }, {
+            "type": "testimonial"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
