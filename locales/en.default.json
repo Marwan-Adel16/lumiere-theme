@@ -1,0 +1,28 @@
+/* locales/en.default.json */
+
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close",
+      "error": "Error",
+      "success": "Success",
+      "loading": "Loading..."
+    },
+    "currency": {
+      "fallback": "USD"
+    }
+  },
+  "layout": {
+    "cart": {
+      "title": "Cart",
+      "items_count": {
+        "one": "1 item",
+        "other": "{{ count }} items"
+      }
+    },
+    "footer": {
+      "copyright": "© {{ year }} {{ shop_name }}. All rights reserved."
+    }
+  }
+}

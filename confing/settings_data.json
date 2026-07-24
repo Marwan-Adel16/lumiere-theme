@@ -1,0 +1,24 @@
+{
+  "current": {
+    "color_base_text": "#1a1a1a",
+    "color_base_heading": "#000000",
+    "color_base_background": "#ffffff",
+    "color_base_accent": "#0056b3",
+    "font_heading": "helvetica_n4",
+    "font_body": "helvetica_n4",
+    "type_body_scale": 100,
+    "page_width": 1200
+  },
+  "presets": {
+    "Default": {
+      "color_base_text": "#1a1a1a",
+      "color_base_heading": "#000000",
+      "color_base_background": "#ffffff",
+      "color_base_accent": "#0056b3",
+      "font_heading": "helvetica_n4",
+      "font_body": "helvetica_n4",
+      "type_body_scale": 100,
+      "page_width": 1200
+    }
+  }
+}

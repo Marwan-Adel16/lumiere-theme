@@ -1,0 +1,94 @@
+{% comment %} layout/theme.liquid {% endcomment %}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-els">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_base_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.font_body | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.font_body | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    <style>
+      {{ settings.font_body | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.font_heading | font_face: font_display: 'swap' }}
+
+      :root {
+        --font-body-family: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        --font-body-style: {{ settings.font_body.style }};
+        --font-body-weight: {{ settings.font_body.weight }};
+        --font-body-scale: {{ settings.type_body_scale | divided_by: 100.0 }};
+
+        --font-heading-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-heading-style: {{ settings.font_heading.style }};
+        --font-heading-weight: {{ settings.font_heading.weight }};
+
+        --color-base-text: {{ settings.color_base_text.red }}, {{ settings.color_base_text.green }}, {{ settings.color_base_text.blue }};
+        --color-base-heading: {{ settings.color_base_heading.red }}, {{ settings.color_base_heading.green }}, {{ settings.color_base_heading.blue }};
+        --color-base-background: {{ settings.color_base_background.red }}, {{ settings.color_base_background.green }}, {{ settings.color_base_background.blue }};
+        --color-base-accent: {{ settings.color_base_accent.red }}, {{ settings.color_base_accent.green }}, {{ settings.color_base_accent.blue }};
+
+        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+    </script>
+
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+  </head>
+
+  <body>
+    <a class="skip-to-content" href="#MainContent">
+      {{ 'general.accessibility.skip_to_content' | t }}
+    </a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+  </body>
+</html>
