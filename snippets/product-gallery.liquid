@@ -1,0 +1,42 @@
+<li class="product-gallery__thumbnail-item">
+  <button
+    type="button"
+    class="product-gallery__thumbnail-btn {% if is_active %}is-active{% endif %}"
+    data-target-media-id="{{ media.id }}"
+    aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load media ' | append: forloop.index }}"
+    aria-current="{% if is_active %}true{% else %}false{% endif %}">
+
+    {{ media.preview_image | image_url: width: 150 | image_tag: 
+ class: 'product-gallery__thumbnail-image',
+ loading: 'lazy',
+ widths: '75, 100, 150',
+ alt: media.alt | default: product.title | escape
+    }}
+
+    {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+      <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--video">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false">
+          <path d="M8 5v14l11-7z" fill="currentColor" />
+        </svg>
+      </span>
+    {%- elsif media.media_type == 'model' -%}
+      <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--model">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <path
+            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            stroke-linejoin="round"
+            stroke-linecap="round" />
+        </svg>
+      </span>
+    {%- endif -%}
+  </button>
+</li>{%- endfor -%}</ul></div>
