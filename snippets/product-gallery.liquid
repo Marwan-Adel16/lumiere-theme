@@ -1,42 +1,145 @@
-<li class="product-gallery__thumbnail-item">
-  <button
-    type="button"
-    class="product-gallery__thumbnail-btn {% if is_active %}is-active{% endif %}"
-    data-target-media-id="{{ media.id }}"
-    aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load media ' | append: forloop.index }}"
-    aria-current="{% if is_active %}true{% else %}false{% endif %}">
+{% comment %} 
+            Snippet: product-gallery.liquid
+            Description: Premium product media gallery with main viewer, thumbnails, video support, and zoom readiness.
+            Usage: {% render 'product-gallery', product: product %} 
+{% endcomment %}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if current_variant.compare_at_price > current_variant.price
+    assign on_sale = true
+  endif
+-%}
+<div class="product-gallery" data-product-gallery>
+  {% comment %} Main Media Viewer {% endcomment %}
+  <div class="product-gallery__main" data-gallery-main>
+    {% comment %} Badges {% endcomment %}
+    <div class="product-gallery__badges">
+      {%- unless current_variant.available -%}
+        <span class="product-badge product-badge--sold-out" aria-hidden="true">
+          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+        </span>
+      {%- elsif on_sale -%}
+        <span class="product-badge product-badge--sale" aria-hidden="true">
+          {{ 'products.product.on_sale' | t | default: 'Sale' }}
+        </span>
+      {%- endunless -%}
+    </div>
 
-    {{ media.preview_image | image_url: width: 150 | image_tag: 
+    {% comment %} Main Slides {% endcomment %}
+    <div class="product-gallery__slides">
+      {%- for media in product.media -%}
+        {%- liquid
+          assign is_active = false
+          if forloop.first
+            assign is_active = true
+          endif
+
+          assign loading_strategy = 'lazy'
+          assign fetch_priority = 'auto'
+
+          if forloop.first
+            assign loading_strategy = 'eager'
+            assign fetch_priority = 'high'
+          endif
+        -%}
+
+        <div
+          class="product-gallery__slide {% if is_active %}is-active{% endif %}"
+          data-media-id="{{ media.id }}"
+          {% unless is_active %}
+          hidden{% endunless %}>
+
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              <div
+                class="product-gallery__zoom-wrapper"
+                data-zoom-wrapper
+                data-zoom-src="{{ media | image_url: width: 2048 }}">
+                {{ media | image_url: width: 1200 | image_tag:
+ class: 'product-gallery__image',
+ loading: loading_strategy,
+ fetchpriority: fetch_priority,
+ widths: '360, 540, 720, 900, 1080, 1200, 1500',
+ alt: media.alt | default: product.title | escape
+                }}
+              </div>
+
+            {%- when 'external_video' -%}
+              <div class="product-gallery__media-wrapper product-gallery__media-wrapper--video" data-media-type="external_video">
+                {{ media | external_video_tag: class: 'product-gallery__video' }}
+              </div>
+
+            {%- when 'video' -%}
+              <div class="product-gallery__media-wrapper product-gallery__media-wrapper--video" data-media-type="video">
+                {{ media | video_tag: controls: true, class: 'product-gallery__video' }}
+              </div>
+
+            {%- when 'model' -%}
+              <div class="product-gallery__media-wrapper product-gallery__media-wrapper--model" data-media-type="model">
+                {{ media | model_viewer_tag: class: 'product-gallery__model' }}
+              </div>
+
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {% comment %} Thumbnails Navigation {% endcomment %}
+  {%- if product.media.size > 1 -%}
+    <div class="product-gallery__thumbnails" data-gallery-thumbnails>
+      <ul class="product-gallery__thumbnail-list" role="list">
+        {%- for media in product.media -%}
+          {%- liquid
+            assign is_active = false
+            if forloop.first
+              assign is_active = true
+            endif
+          -%}
+          <li class="product-gallery__thumbnail-item">
+            <button
+              type="button"
+              class="product-gallery__thumbnail-btn {% if is_active %}is-active{% endif %}"
+              data-target-media-id="{{ media.id }}"
+              aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load media ' | append: forloop.index }}"
+              aria-current="{% if is_active %}true{% else %}false{% endif %}">
+
+              {{ media.preview_image | image_url: width: 150 | image_tag: 
  class: 'product-gallery__thumbnail-image',
  loading: 'lazy',
  widths: '75, 100, 150',
  alt: media.alt | default: product.title | escape
-    }}
+              }}
 
-    {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
-      <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--video">
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-          focusable="false">
-          <path d="M8 5v14l11-7z" fill="currentColor" />
-        </svg>
-      </span>
-    {%- elsif media.media_type == 'model' -%}
-      <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--model">
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-          focusable="false"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2">
-          <path
-            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-            stroke-linejoin="round"
-            stroke-linecap="round" />
-        </svg>
-      </span>
-    {%- endif -%}
-  </button>
-</li>{%- endfor -%}</ul></div>
+              {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--video">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    focusable="false">
+                    <path d="M8 5v14l11-7z" fill="currentColor" />
+                  </svg>
+                </span>
+              {%- elsif media.media_type == 'model' -%}
+                <span class="product-gallery__thumbnail-badge product-gallery__thumbnail-badge--model">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    focusable="false"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path
+                      d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                      stroke-linejoin="round"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              {%- endif -%}
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</div>
