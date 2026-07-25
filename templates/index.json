@@ -1,0 +1,137 @@
+{
+  "layout": "theme",
+  "sections": {
+    "hero_banner": {
+      "type": "hero-banner",
+      "settings": {
+        "desktop_height": "large",
+        "mobile_height": "medium",
+        "overlay_opacity": 30,
+        "text_color": "#ffffff",
+        "desktop_content_position": "middle",
+        "desktop_text_alignment": "center",
+        "mobile_content_position": "middle",
+        "mobile_text_alignment": "center",
+        "heading": "New Arrivals",
+        "heading_tag": "h1",
+        "subheading": "<p>Discover the latest styles designed for the modern wardrobe.</p>",
+        "button_1_label": "Shop Collection",
+        "button_1_link": "shopify:\/\/collections\/all",
+        "button_2_label": "View Lookbook",
+        "button_2_link": ""
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Trending Now",
+        "subheading": "<p>Our most loved pieces this season</p>",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "image_with_text": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Crafted with Purpose"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every piece in our collection is carefully designed using sustainable materials and ethical manufacturing processes. We believe in creating timeless garments that will last a lifetime.</p>"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "button_1_label": "Our Story",
+            "button_1_link": "",
+            "button_2_label": "",
+            "button_2_link": ""
+          }
+        }
+      },
+      "block_order": ["heading", "text", "buttons"],
+      "settings": {
+        "layout": "image_first",
+        "text_alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>The quality of these clothes is unmatched. The fit is perfect and the materials feel incredibly luxurious against the skin. Highly recommended!</p>",
+            "author": "Sarah Jenkins",
+            "location": "New York"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>I've been searching for sustainable luxury basics for years. Lumiere completely exceeded my expectations. Fast shipping too.</p>",
+            "author": "Michael Chen",
+            "location": "London"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Beautiful packaging and even better garments. You can tell they put a lot of care into every single detail. I'm a customer for life.</p>",
+            "author": "Elena Rodriguez",
+            "location": "Paris"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
+      "settings": {
+        "heading": "Client Experiences",
+        "background_color": "#fafafa",
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "badge_text": "Join the club",
+        "heading": "Unlock 10% Off",
+        "description": "<p>Sign up to our newsletter to receive exclusive offers, early access to new collections, and styling tips.</p>",
+        "layout": "background",
+        "show_image": true,
+        "overlay_opacity": 50,
+        "color_scheme": "light",
+        "button_style": "primary",
+        "border_radius": 0,
+        "enable_animation": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "hero_banner",
+    "featured_collection",
+    "image_with_text",
+    "testimonials",
+    "newsletter"
+  ]
+}
