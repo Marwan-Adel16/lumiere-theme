@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "container_width": "standard",
+        "gallery_position": "left",
+        "enable_sticky_info": true,
+        "desktop_gap": "medium"
+      }
+    },
+    "related-products": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["main", "related-products", "newsletter"]
+}
