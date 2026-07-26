@@ -1,0 +1,189 @@
+{%- comment -%} 
+  Section: main-product.liquid
+  Theme: Lumiere Theme
+  Description: Main product page section that orchestrates the product gallery and information layout. 
+{%- endcomment -%}
+
+<section
+  id="ProductSection-{{ section.id }}"
+  class="section section-main-product color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="main-product"
+  data-product-handle="{{ product.handle }}"
+  data-product-url="{{ product.url }}"
+  data-product-id="{{ product.id }}"
+  data-gallery-position="{{ section.settings.gallery_position }}"
+  data-sticky-enabled="{{ section.settings.enable_sticky_info }}"
+  data-animation-enabled="{{ section.settings.enable_animation }}"
+  aria-label="{{ product.title | escape }}">
+
+  <div class="container container--{{ section.settings.container_width }}">
+
+    <div class="product-layout product-layout--gallery-{{ section.settings.gallery_position }} product-layout--gap-{{ section.settings.desktop_gap }} {% if section.settings.enable_animation %}product-layout--animated{% endif %}" data-product-layout>
+
+      {%- comment -%} Product Gallery Column {%- endcomment -%}
+      <div class="product-layout__column product-layout__column--gallery" data-product-gallery-container>
+        {% render 'product-gallery'
+          , product: product %}
+      </div>
+
+      {%- comment -%} Product Information Column {%- endcomment -%}
+      <div class="product-layout__column product-layout__column--info {% if section.settings.enable_sticky_info %}product-layout__column--sticky{% endif %}" data-product-info-container>
+        {% render 'product-info'
+          , product: product
+          , section_id: section.id %}
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "t:sections.main-product.name",
+    "tag": "section",
+    "class": "section-main-product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sections.main-product.settings.header_layout.content"
+      },
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "t:sections.main-product.settings.container_width.label",
+        "options": [
+          {
+            "value": "standard",
+            "label": "t:sections.main-product.settings.container_width.options.standard"
+          }, {
+            "value": "wide",
+            "label": "t:sections.main-product.settings.container_width.options.wide"
+          }, {
+            "value": "full",
+            "label": "t:sections.main-product.settings.container_width.options.full"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "select",
+        "id": "gallery_position",
+        "label": "t:sections.main-product.settings.gallery_position.label",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.main-product.settings.gallery_position.options.left"
+          }, {
+            "value": "right",
+            "label": "t:sections.main-product.settings.gallery_position.options.right"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_info",
+        "label": "t:sections.main-product.settings.enable_sticky_info.label",
+        "default": true
+      }, {
+        "type": "select",
+        "id": "desktop_gap",
+        "label": "t:sections.main-product.settings.desktop_gap.label",
+        "options": [
+          {
+            "value": "small",
+            "label": "t:sections.main-product.settings.desktop_gap.options.small"
+          }, {
+            "value": "medium",
+            "label": "t:sections.main-product.settings.desktop_gap.options.medium"
+          }, {
+            "value": "large",
+            "label": "t:sections.main-product.settings.desktop_gap.options.large"
+          }
+        ],
+        "default": "medium"
+      }, {
+        "type": "header",
+        "content": "t:sections.main-product.settings.header_appearance.content"
+      }, {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.main-product.settings.color_scheme.label",
+        "default": "background-1"
+      }, {
+        "type": "checkbox",
+        "id": "enable_animation",
+        "label": "t:sections.main-product.settings.enable_animation.label",
+        "default": true
+      }, {
+        "type": "header",
+        "content": "t:sections.main-product.settings.header_padding.content"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.padding_top.label",
+        "default": 40
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.padding_bottom.label",
+        "default": 40
+      }, {
+        "type": "range",
+        "id": "padding_top_mobile",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.padding_top_mobile.label",
+        "default": 24
+      }, {
+        "type": "range",
+        "id": "padding_bottom_mobile",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.padding_bottom_mobile.label",
+        "default": 24
+      }, {
+        "type": "header",
+        "content": "t:sections.main-product.settings.header_margin.content"
+      }, {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.margin_top.label",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.main-product.settings.margin_bottom.label",
+        "default": 0
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.main-product.presets.name"
+      }
+    ]
+  }
+{% endschema %}
