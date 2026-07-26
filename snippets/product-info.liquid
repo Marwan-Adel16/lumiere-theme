@@ -2,11 +2,11 @@
   Snippet: product-info.liquid
   Theme: Lumiere Theme
   Description: Complete product information block including title, pricing, form, and metadata.
-  Usage: {% render 'product-info', product: product %}
+  Usage: {% render 'product-info', product: product, section_id: section.id %}
 {%- endcomment -%}
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id -%}
+{%- assign product_form_id = 'product-form-' | append: section_id | append: '-' | append: product.id -%}
 
 <div class="product-info" data-product-info data-product-id="{{ product.id }}">
   
@@ -25,7 +25,7 @@
 
   {%- comment -%} 3. Product Rating Placeholder {%- endcomment -%}
   <div class="product-info__rating" data-product-rating>
-    {%- if product.metafields.reviews.rating.value != blank -%}
+    {%- if product.metafields.reviews.rating != blank and product.metafields.reviews.rating.value != blank -%}
       {%- assign rating_value = product.metafields.reviews.rating.value -%}
       {%- assign rating_max = product.metafields.reviews.rating.value.scale_max | default: 5 -%}
       {%- assign rating_count = product.metafields.reviews.rating_count.value | default: 0 -%}
@@ -126,14 +126,14 @@
                 {%- for value in option.values -%}
                   <div class="product-form__option-input-wrapper">
                     <input type="radio" 
-                           id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                           id="{{ section_id }}-{{ option.position }}-{{ forloop.index0 }}"
                            name="options[{{ option.name | escape }}]"
                            value="{{ value | escape }}"
                            form="{{ product_form_id }}"
                            class="product-form__radio visually-hidden"
                            {% if option.selected_value == value %}checked{% endif %}
                            data-variant-option>
-                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="product-form__label">
+                    <label for="{{ section_id }}-{{ option.position }}-{{ forloop.index0 }}" class="product-form__label">
                       {{ value }}
                     </label>
                   </div>
@@ -145,8 +145,8 @@
         
         <noscript>
           <div class="product-form__no-js-variants">
-            <label for="Variants-{{ section.id }}">{{ 'products.product.variants' | t }}</label>
-            <select name="id" id="Variants-{{ section.id }}" form="{{ product_form_id }}">
+            <label for="Variants-{{ section_id }}">{{ 'products.product.variants' | t }}</label>
+            <select name="id" id="Variants-{{ section_id }}" form="{{ product_form_id }}">
               {%- for variant in product.variants -%}
                 <option value="{{ variant.id }}" {% if variant == current_variant %}selected="selected"{% endif %} {% unless variant.available %}disabled="disabled"{% endunless %}>
                   {{ variant.title }} - {{ variant.price | money }}
@@ -161,7 +161,7 @@
         
         {%- comment -%} 11. Quantity Selector {%- endcomment -%}
         <div class="product-form__quantity" data-quantity-wrapper>
-          <label class="visually-hidden" for="Quantity-{{ section.id }}">
+          <label class="visually-hidden" for="Quantity-{{ section_id }}">
             {{ 'products.product.quantity.label' | t }}
           </label>
           <div class="quantity-selector" data-quantity-selector>
@@ -169,7 +169,7 @@
               <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2 7h12v2H2z" fill="currentColor"/></svg>
             </button>
             <input type="number" 
-                   id="Quantity-{{ section.id }}" 
+                   id="Quantity-{{ section_id }}" 
                    name="quantity" 
                    class="quantity-selector__input" 
                    value="1" 
@@ -235,7 +235,7 @@
       <ul class="product-info__tags-list" role="list">
         {%- for tag in product.tags -%}
           <li class="product-info__tags-item">
-            <a href="{{ routes.all_products_collection_url }}/{{ tag | handleize }}" class="product-info__tags-link">{{ tag }}</a>
+            <span class="product-info__tags-link">{{ tag }}</span>
           </li>
         {%- endfor -%}
       </ul>
