@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "show_collection_image": true,
+        "show_collection_description": true,
+        "products_per_page": 16,
+        "desktop_columns": 4,
+        "mobile_columns": "2",
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["main", "newsletter"]
+}
