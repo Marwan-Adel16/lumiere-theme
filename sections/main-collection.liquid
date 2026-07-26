@@ -1,7 +1,7 @@
 {%- comment -%} 
-  Section: main-collection.liquid
-  Theme: Lumiere Theme
-  Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
+              Section: main-collection.liquid
+              Theme: Lumiere Theme
+              Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
 {%- endcomment -%}
 
 <section
@@ -12,83 +12,103 @@
 
   {%- comment -%} 2. Responsive container {%- endcomment -%}
   <div class="container container--{{ section.settings.container_width }}">
+    {% paginate collection.products by section.settings.products_per_page %}
 
-    {%- comment -%} 3. Collection header wrapper {%- endcomment -%}
-    <header class="collection-header" data-collection-header>
+      {%- comment -%} 3. Collection header wrapper {%- endcomment -%}
+      <header class="collection-header" data-collection-header>
 
-      {%- comment -%} 4. Collection image placeholder {%- endcomment -%}
-      {%- if section.settings.show_collection_image and collection.image != blank -%}
-        <div class="collection-header__image-wrapper" data-collection-image>
-          {{ collection.image | image_url: width: 1200 | image_tag:
+        {%- comment -%} 4. Collection image placeholder {%- endcomment -%}
+        {%- if section.settings.show_collection_image and collection.image != blank -%}
+          <div class="collection-header__image-wrapper" data-collection-image>
+            {{ collection.image | image_url: width: 1200 | image_tag:
  class: 'collection-header__image',
  loading: 'eager',
  sizes: '100vw',
  widths: '400, 600, 800, 1000, 1200, 1600',
  alt: collection.image.alt | default: collection.title
-          }}
-        </div>
-      {%- endif -%}
-
-      <div class="collection-header__content">
-        {%- comment -%} 5. Collection title {%- endcomment -%}
-        <h1 class="collection-header__title">
-          <span class="visually-hidden">{{ 'collections.general.collection_label' | t | default: 'Collection' }}:
-          </span>
-          {{ collection.title | escape }}
-        </h1>
-
-        {%- comment -%} 6. Collection description {%- endcomment -%}
-        {%- if section.settings.show_collection_description and collection.description != blank -%}
-          <div class="collection-header__description rte" data-collection-description>
-            {{ collection.description }}
+            }}
           </div>
         {%- endif -%}
-      </div>
-    </header>
 
-    {%- comment -%} 7. Toolbar wrapper {%- endcomment -%}
-    <div
-      class="collection-toolbar"
-      id="CollectionToolbar"
-      data-collection-toolbar>
+        <div class="collection-header__content">
+          {%- comment -%} 5. Collection title {%- endcomment -%}
+          <h1 class="collection-header__title">
+            <span class="visually-hidden">{{ 'collections.general.collection_label' | t | default: 'Collection' }}:
+            </span>
+            {{ collection.title | escape }}
+          </h1>
 
-      {%- if section.settings.enable_filtering -%}
-        <div class="collection-toolbar__filters" data-collection-filters>
-          <!-- Filters placeholder -->
+          {%- comment -%} 6. Collection description {%- endcomment -%}
+          {%- if section.settings.show_collection_description and collection.description != blank -%}
+            <div class="collection-header__description rte" data-collection-description>
+              {{ collection.description }}
+            </div>
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </header>
 
-      {%- if section.settings.enable_sorting -%}
-        <div class="collection-toolbar__sorting" data-collection-sorting>
-          <!-- Sorting placeholder -->
-        </div>
-      {%- endif -%}
+      {%- comment -%} 7. Toolbar wrapper {%- endcomment -%}
+      <div
+        class="collection-toolbar"
+        id="CollectionToolbar"
+        data-collection-toolbar>
 
-    </div>
+        {%- if section.settings.enable_filtering -%}
+          <div class="collection-toolbar__filters" data-collection-filters>
+            <!-- Filters placeholder -->
+          </div>
+        {%- endif -%}
 
-    <div
-      class="collection-content"
-      id="CollectionContent"
-      data-collection-content>
+        {%- if section.settings.enable_sorting -%}
+          <div class="collection-toolbar__sorting" data-collection-sorting>
+            <!-- Sorting placeholder -->
+          </div>
+        {%- endif -%}
 
-      {%- comment -%} 8. Product grid wrapper {%- endcomment -%}
-      <div class="collection-grid grid grid--{{ section.settings.desktop_columns }}-col-desktop grid--{{ section.settings.mobile_columns }}-col-mobile" data-product-grid>
-        <!-- Product loop and product cards placeholder -->
       </div>
 
-      {%- comment -%} 9. Empty collection wrapper {%- endcomment -%}
-      <div class="collection-empty" data-collection-empty>
-        <div class="collection-empty__content">
-          <!-- Empty collection message placeholder -->
-        </div>
-      </div>
+      <div
+        class="collection-content"
+        id="CollectionContent"
+        data-collection-content>
 
-      {%- comment -%} 10. Pagination wrapper {%- endcomment -%}
-      <div class="collection-pagination" data-collection-pagination>
-        <!-- Pagination logic placeholder -->
-      </div>
+        {%- comment -%} 8. Product grid wrapper {%- endcomment -%}
+        {%- if paginate.items.size > 0 -%}
+          <div class="collection-grid grid grid--{{ section.settings.desktop_columns }}-col-desktop grid--{{ section.settings.mobile_columns }}-col-mobile" data-product-grid>
 
-    </div>
+            {% for product in paginate.items %}
+              {% render 'product-card'
+                , product: product %}
+            {%- endfor -%}
+
+          </div>
+        {%- else -%}
+          <div class="collection-empty" data-collection-empty>
+            <div class="collection-empty__content">
+              <h2 class="collection-empty__title">
+                {{ 'collections.general.no_matches' | t | default: 'No products found' }}
+              </h2>
+
+              <p class="collection-empty__text">
+                {{ 'collections.general.use_fewer_filters' | t | default: 'Try checking your spelling or using different filters.' }}
+              </p>
+
+              <a href="{{ routes.all_products_collection_url }}" class="button button--primary">
+                {{ 'general.continue_shopping' | t | default: 'Continue shopping' }}
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+
+
+        {%- comment -%} 10. Pagination wrapper {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          {% render 'pagination'
+            , paginate: paginate %}
+        {%- endif -%}
+
+      </div>
+    {% endpaginate %}
 
   </div>
 </section>
