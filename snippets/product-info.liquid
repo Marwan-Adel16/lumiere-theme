@@ -1,0 +1,264 @@
+{%- comment -%}
+  Snippet: product-info.liquid
+  Theme: Lumiere Theme
+  Description: Complete product information block including title, pricing, form, and metadata.
+  Usage: {% render 'product-info', product: product %}
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id -%}
+
+<div class="product-info" data-product-info data-product-id="{{ product.id }}">
+  
+  {%- comment -%} 1. Product Vendor {%- endcomment -%}
+  {%- if product.vendor != blank -%}
+    <div class="product-info__vendor" data-vendor>
+      <span class="visually-hidden">{{ 'products.product.vendor' | t }}</span>
+      {{ product.vendor | link_to_vendor }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 2. Product Title {%- endcomment -%}
+  <h1 class="product-info__title" data-product-title>
+    {{ product.title | escape }}
+  </h1>
+
+  {%- comment -%} 3. Product Rating Placeholder {%- endcomment -%}
+  <div class="product-info__rating" data-product-rating>
+    {%- if product.metafields.reviews.rating.value != blank -%}
+      {%- assign rating_value = product.metafields.reviews.rating.value -%}
+      {%- assign rating_max = product.metafields.reviews.rating.value.scale_max | default: 5 -%}
+      {%- assign rating_count = product.metafields.reviews.rating_count.value | default: 0 -%}
+      <div class="rating-display" role="img" aria-label="{{ 'products.product.rating_label' | t: rating: rating_value, max: rating_max }}">
+        <span class="rating-display__stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+        <span class="rating-display__text">{{ rating_value }} / {{ rating_max }}</span>
+        <span class="rating-display__count">({{ rating_count }} {{ 'products.product.reviews' | t }})</span>
+      </div>
+    {%- else -%}
+      <div class="rating-placeholder" data-rating-placeholder>
+        <span class="rating-placeholder__stars" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+        <span class="rating-placeholder__text">{{ 'products.product.no_reviews' | t }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} 4, 5, 6. Pricing & Discount Badge {%- endcomment -%}
+  <div class="product-info__pricing-wrapper" data-price-wrapper>
+    <div class="product-info__price-container">
+      <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+      <span class="product-info__price" data-product-price>
+        {{ current_variant.price | money }}
+      </span>
+
+      <span class="product-info__compare-price {% if current_variant.compare_at_price <= current_variant.price %}hidden{% endif %}" data-compare-price>
+        <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+        <s data-compare-price-value>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            {{ current_variant.compare_at_price | money }}
+          {%- endif -%}
+        </s>
+      </span>
+    </div>
+
+    <div class="product-info__badge-sale {% if current_variant.compare_at_price <= current_variant.price %}hidden{% endif %}" data-sale-badge>
+      <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+    </div>
+  </div>
+
+  {%- comment -%} 7, 8. Tax & Shipping Notice {%- endcomment -%}
+  <div class="product-info__notices">
+    {%- if cart.taxes_included -%}
+      <span class="product-info__tax-notice">{{ 'products.product.include_taxes' | t }}</span>
+    {%- endif -%}
+    {%- if shop.shipping_policy.body != blank -%}
+      <span class="product-info__shipping-notice">{{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}</span>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} 15, 16. SKU & Stock Status {%- endcomment -%}
+  <div class="product-info__meta">
+    <div class="product-info__sku {% if current_variant.sku == blank %}hidden{% endif %}" data-sku-container>
+      <span class="product-info__meta-label">{{ 'products.product.sku' | t }}:</span>
+      <span class="product-info__meta-value" data-product-sku>{{ current_variant.sku }}</span>
+    </div>
+
+    <div class="product-info__stock" data-stock-status>
+      <span class="product-info__meta-label">{{ 'products.product.availability' | t }}:</span>
+      <span class="product-info__meta-value" data-stock-value>
+        {%- if current_variant.available -%}
+          <span class="status-indicator status-indicator--in-stock">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            {{ 'products.product.in_stock' | t }}
+          </span>
+        {%- else -%}
+          <span class="status-indicator status-indicator--out-of-stock">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            {{ 'products.product.out_of_stock' | t }}
+          </span>
+        {%- endif -%}
+      </span>
+    </div>
+  </div>
+
+  {%- comment -%} 9. Product Description {%- endcomment -%}
+  {%- if product.description != blank -%}
+    <div class="product-info__description rte" data-product-description>
+      {{ product.description }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 12. Product Form {%- endcomment -%}
+  <div class="product-info__form-wrapper">
+    {%- form 'product', product, id: product_form_id, class: 'form product-form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+      {%- comment -%} 10. Variant Picker {%- endcomment -%}
+      {%- unless product.has_only_default_variant -%}
+        <div class="product-form__variants" data-variant-picker>
+          {%- for option in product.options_with_values -%}
+            <fieldset class="product-form__option-fieldset" data-option-index="{{ forloop.index0 }}">
+              <legend class="product-form__option-name">{{ option.name }}</legend>
+              <div class="product-form__option-values">
+                {%- for value in option.values -%}
+                  <div class="product-form__option-input-wrapper">
+                    <input type="radio" 
+                           id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                           name="options[{{ option.name | escape }}]"
+                           value="{{ value | escape }}"
+                           form="{{ product_form_id }}"
+                           class="product-form__radio visually-hidden"
+                           {% if option.selected_value == value %}checked{% endif %}
+                           data-variant-option>
+                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="product-form__label">
+                      {{ value }}
+                    </label>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        </div>
+        
+        <noscript>
+          <div class="product-form__no-js-variants">
+            <label for="Variants-{{ section.id }}">{{ 'products.product.variants' | t }}</label>
+            <select name="id" id="Variants-{{ section.id }}" form="{{ product_form_id }}">
+              {%- for variant in product.variants -%}
+                <option value="{{ variant.id }}" {% if variant == current_variant %}selected="selected"{% endif %} {% unless variant.available %}disabled="disabled"{% endunless %}>
+                  {{ variant.title }} - {{ variant.price | money }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        </noscript>
+      {%- endunless -%}
+
+      <div class="product-form__actions-group">
+        
+        {%- comment -%} 11. Quantity Selector {%- endcomment -%}
+        <div class="product-form__quantity" data-quantity-wrapper>
+          <label class="visually-hidden" for="Quantity-{{ section.id }}">
+            {{ 'products.product.quantity.label' | t }}
+          </label>
+          <div class="quantity-selector" data-quantity-selector>
+            <button type="button" class="quantity-selector__btn" aria-label="{{ 'products.product.quantity.decrease' | t }}" data-quantity-minus>
+              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2 7h12v2H2z" fill="currentColor"/></svg>
+            </button>
+            <input type="number" 
+                   id="Quantity-{{ section.id }}" 
+                   name="quantity" 
+                   class="quantity-selector__input" 
+                   value="1" 
+                   min="1" 
+                   form="{{ product_form_id }}" 
+                   data-quantity-input>
+            <button type="button" class="quantity-selector__btn" aria-label="{{ 'products.product.quantity.increase' | t }}" data-quantity-plus>
+              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M7 2v5H2v2h5v5h2V9h5V7H9V2H7z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+
+        {%- comment -%} 13. Add to Cart Button {%- endcomment -%}
+        <div class="product-form__buttons">
+          <button type="submit" name="add" class="button button--primary product-form__add-to-cart" {% unless current_variant.available %}disabled="disabled"{% endunless %} data-add-to-cart>
+            <span data-add-to-cart-text>
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+            <span class="loading-spinner hidden" aria-hidden="true" data-loading-spinner>
+              <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="30" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle></svg>
+            </span>
+          </button>
+          
+          {%- comment -%} 14. Dynamic Checkout Button {%- endcomment -%}
+          <div class="product-form__dynamic-checkout" data-dynamic-checkout>
+            {{ form | payment_button }}
+          </div>
+        </div>
+      </div>
+    {%- endform -%}
+  </div>
+
+  {%- comment -%} 21. Estimated Delivery Placeholder {%- endcomment -%}
+  <div class="product-info__delivery-placeholder" data-estimated-delivery>
+    <div class="delivery-box">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+      <span class="delivery-box__text">{{ 'products.product.estimated_delivery_placeholder' | t }}</span>
+    </div>
+  </div>
+
+  <div class="product-info__extras">
+    {%- comment -%} 20. Wishlist Placeholder {%- endcomment -%}
+    <button type="button" class="action-btn action-btn--wishlist" aria-label="{{ 'products.product.add_to_wishlist' | t }}" data-wishlist-toggle>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      <span>{{ 'products.product.add_to_wishlist' | t }}</span>
+    </button>
+
+    {%- comment -%} 19. Social Share Placeholder {%- endcomment -%}
+    <button type="button" class="action-btn action-btn--share" aria-label="{{ 'products.product.share' | t }}" data-share-button>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+      <span>{{ 'products.product.share' | t }}</span>
+    </button>
+  </div>
+
+  {%- comment -%} 17. Product Tags {%- endcomment -%}
+  {%- if product.tags.size > 0 -%}
+    <div class="product-info__tags">
+      <span class="product-info__tags-label">{{ 'products.product.tags' | t }}:</span>
+      <ul class="product-info__tags-list" role="list">
+        {%- for tag in product.tags -%}
+          <li class="product-info__tags-item">
+            <a href="{{ routes.all_products_collection_url }}/{{ tag | handleize }}" class="product-info__tags-link">{{ tag }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 18. Trust Badges Placeholder {%- endcomment -%}
+  <div class="product-info__trust-badges" data-trust-badges>
+    <div class="trust-badges">
+      <span class="visually-hidden">{{ 'products.product.secure_checkout' | t }}</span>
+      <div class="trust-badges__header">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span>{{ 'products.product.secure_checkout' | t }}</span>
+      </div>
+      <div class="trust-badges__icons-placeholder" aria-hidden="true">
+        <!-- SVG payment icon placeholders meant to be hydrated or styled via CSS -->
+        <div class="trust-badge-icon" data-icon="visa"></div>
+        <div class="trust-badge-icon" data-icon="mastercard"></div>
+        <div class="trust-badge-icon" data-icon="amex"></div>
+        <div class="trust-badge-icon" data-icon="paypal"></div>
+        <div class="trust-badge-icon" data-icon="apple_pay"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
