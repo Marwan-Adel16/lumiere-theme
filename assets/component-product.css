@@ -1,0 +1,164 @@
+/* =========================================================
+   PRODUCT LAYOUT
+========================================================= */
+
+.product-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.product-layout__column--sticky {
+  position: sticky;
+  top: 30px;
+}
+
+@media (max-width: 990px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .product-layout__column--sticky {
+    position: static;
+  }
+}
+
+/* =========================================================
+   PRODUCT GALLERY
+========================================================= */
+
+.product-gallery {
+  width: 100%;
+}
+
+.product-gallery__main {
+  position: relative;
+}
+
+.product-gallery__image {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+.product-gallery__slides {
+  position: relative;
+}
+
+.product-gallery__slide {
+  display: none;
+}
+
+.product-gallery__slide.is-active {
+  display: block;
+}
+
+.product-gallery__thumbnails {
+  margin-top: 20px;
+}
+
+.product-gallery__thumbnail-list {
+  display: flex;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.product-gallery__thumbnail-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.product-gallery__thumbnail-image {
+  width: 80px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.product-gallery__thumbnail-btn.is-active img {
+  border: 2px solid #000;
+}
+
+/* =========================================================
+   PRODUCT INFO
+========================================================= */
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-info__title {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.product-info__price {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.product-info__compare-price {
+  margin-left: 10px;
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   PRODUCT FORM
+========================================================= */
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-selector__btn {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.quantity-selector__input {
+  width: 60px;
+  text-align: center;
+}
+
+.product-form__add-to-cart {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* =========================================================
+   PRODUCT ACCORDION
+========================================================= */
+
+.product-accordion {
+  margin-top: 40px;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.accordion-title {
+  cursor: pointer;
+  padding: 18px 0;
+  font-weight: 600;
+}
+
+.accordion-content {
+  padding-bottom: 20px;
+}
