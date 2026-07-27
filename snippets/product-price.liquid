@@ -1,0 +1,28 @@
+{%- comment -%} 
+  Snippet: product-price.liquid
+  Description: Reusable product price component 
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="product-price" data-product-price>
+
+  {%- if current_variant.compare_at_price > current_variant.price -%}
+
+    <span class="product-price__sale">
+      {{ current_variant.price | money }}
+    </span>
+
+    <span class="product-price__compare">
+      {{ current_variant.compare_at_price | money }}
+    </span>
+
+  {%- else -%}
+
+    <span class="product-price__regular">
+      {{ current_variant.price | money }}
+    </span>
+
+  {%- endif -%}
+
+</div>
