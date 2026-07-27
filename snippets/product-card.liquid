@@ -298,14 +298,13 @@
       aria-label="{{ product.title | escape }}">
       <span class="visually-hidden">{{ product.title | escape }}</span>
     </a>
+    {% render 'product-badges'
+      ,
+ product: product
+      ,
+ current_variant: current_variant
+    %}
 
-    <div class="product-card__badges">
-      {%- if sold_out -%}
-        <span class="product-card__badge product-card__badge--sold-out" aria-hidden="true">Sold Out</span>
-      {%- elsif on_sale -%}
-        <span class="product-card__badge product-card__badge--sale" aria-hidden="true">Sale</span>
-      {%- endif -%}
-    </div>
 
     <button
       type="button"
