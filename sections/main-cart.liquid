@@ -1,0 +1,85 @@
+{% comment %} 
+  Section: main-cart.liquid
+  Theme: Lumiere Theme 
+{% endcomment %}
+
+<section
+  id="CartSection-{{ section.id }}"
+  class="section section-main-cart color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="main-cart">
+
+  <div class="container container--{{ section.settings.container_width }}">
+
+    <header class="cart-header">
+      <h1 class="cart-header__title">
+        {{ 'sections.cart.title' | t | default: 'Shopping Cart' }}
+      </h1>
+    </header>
+
+    {% if cart.item_count > 0 %}
+
+      <div class="cart-layout">
+
+        <div class="cart-layout__items">
+          {% render 'cart-items'
+            , cart: cart %}
+        </div>
+
+        <aside class="cart-layout__summary">
+          {% render 'cart-summary'
+            , cart: cart %}
+        </aside>
+
+      </div>
+
+    {% else %}
+
+      <div class="cart-empty">
+
+        <h2>{{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}</h2>
+
+        <a href="{{ routes.all_products_collection_url }}" class="button button--primary">
+          {{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}
+        </a>
+
+      </div>
+
+    {% endif %}
+
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Main Cart",
+    "tag": "section",
+    "class": "section-main-cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          }, {
+            "value": "wide",
+            "label": "Wide"
+          }, {
+            "value": "full",
+            "label": "Full Width"
+          }
+        ],
+        "default": "standard"
+      }, {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "background-1"
+      }
+    ]
+  }
+{% endschema %}
