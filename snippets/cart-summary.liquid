@@ -1,0 +1,36 @@
+{% comment %} 
+  Snippet: cart-summary.liquid 
+{% endcomment %}
+
+<div class="cart-summary">
+
+  <h2 class="cart-summary__title">
+    {{ 'sections.cart.summary' | t | default: 'Order Summary' }}
+  </h2>
+
+  <div class="cart-summary__row">
+    <span>{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
+    <strong>{{ cart.total_price | money }}</strong>
+  </div>
+
+  <div class="cart-summary__note">
+    {{ 'sections.cart.taxes_and_shipping' | t | default: 'Taxes and shipping calculated at checkout.' }}
+  </div>
+
+  <div class="cart-summary__actions">
+
+    <button
+      type="submit"
+      name="checkout"
+      form="cart"
+      class="button button--primary cart-summary__checkout">
+      {{ 'sections.cart.checkout' | t | default: 'Checkout' }}
+    </button>
+
+    <a href="{{ routes.all_products_collection_url }}" class="button button--secondary">
+      {{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}
+    </a>
+
+  </div>
+
+</div>
