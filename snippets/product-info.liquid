@@ -105,11 +105,7 @@
   </div>
 
   {%- comment -%} 9. Product Description {%- endcomment -%}
-  {%- if product.description != blank -%}
-    <div class="product-info__description rte" data-product-description>
-      {{ product.description }}
-    </div>
-  {%- endif -%}
+  {% render 'product-accordion', product: product %}
 
   {%- comment -%} 12. Product Form {%- endcomment -%}
   <div class="product-info__form-wrapper">

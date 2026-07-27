@@ -1,0 +1,50 @@
+{% comment %} 
+  Snippet: product-accordion.liquid
+  Theme: Lumiere Theme 
+{% endcomment %}
+
+<div class="product-accordion">
+
+  {% if product.description != blank %}
+    <details class="accordion-item" open>
+      <summary class="accordion-title">
+        Description
+      </summary>
+
+      <div class="accordion-content rte">
+        {{ product.description }}
+      </div>
+    </details>
+  {% endif %}
+
+  <details class="accordion-item">
+    <summary class="accordion-title">
+      Shipping & Returns
+    </summary>
+
+    <div class="accordion-content">
+      <p>
+        Orders are processed within 1–2 business days.
+      </p>
+
+      <p>
+        Returns are accepted within 14 days in original condition.
+      </p>
+    </div>
+  </details>
+
+  <details class="accordion-item">
+    <summary class="accordion-title">
+      Additional Information
+    </summary>
+
+    <div class="accordion-content">
+      <ul>
+        <li>Premium Quality</li>
+        <li>Secure Checkout</li>
+        <li>Fast Delivery</li>
+      </ul>
+    </div>
+  </details>
+
+</div>
