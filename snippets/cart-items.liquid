@@ -1,0 +1,63 @@
+{% comment %} 
+  Snippet: cart-items.liquid 
+{% endcomment %}
+
+<div class="cart-items">
+
+  {% for item in cart.items %}
+
+    <div class="cart-item">
+
+      <div class="cart-item__image">
+        <a href="{{ item.url }}">
+          {{ item.image
+ | image_url: width: 300
+ | image_tag: loading: 'lazy', alt: item.product.title
+          }}
+        </a>
+      </div>
+
+      <div class="cart-item__content">
+
+        <h3 class="cart-item__title">
+          <a href="{{ item.url }}">
+            {{ item.product.title }}
+          </a>
+        </h3>
+
+        {% unless item.variant.title == 'Default Title' %}
+          <div class="cart-item__variant">
+            {{ item.variant.title }}
+          </div>
+        {% endunless %}
+
+        <div class="cart-item__price">
+          {{ item.final_price | money }}
+        </div>
+
+        <div class="cart-item__quantity">
+
+          <input
+            type="number"
+            value="{{ item.quantity }}"
+            min="1"
+            data-line="{{ forloop.index }}"
+            class="cart-item__quantity-input">
+
+        </div>
+
+        <div class="cart-item__remove">
+
+          <a href="{{ item.url_to_remove }}">
+            {{ 'sections.cart.remove' | t | default: 'Remove' }}
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {% endfor %}
+
+</div>
