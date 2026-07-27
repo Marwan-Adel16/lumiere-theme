@@ -1,0 +1,20 @@
+{%- comment -%} 
+  Snippet: product-badges.liquid
+  Theme: Lumiere Theme
+  Description: Displays product badges (Sale / Sold Out). 
+{%- endcomment -%}
+
+<div class="product-badges" data-product-badges>
+
+  {%- if product.available == false -%}
+    <span class="product-badge product-badge--sold-out">
+      {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+    </span>
+
+  {%- elsif product.compare_at_price_max > product.price -%}
+    <span class="product-badge product-badge--sale">
+      {{ 'products.product.on_sale' | t | default: 'Sale' }}
+    </span>
+  {%- endif -%}
+
+</div>
