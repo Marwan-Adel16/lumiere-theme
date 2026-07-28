@@ -1,0 +1,188 @@
+{% comment %} 
+  Section: main-page.liquid
+  Theme: Lumiere Theme
+  Description: Default page template section for Shopify static pages. 
+{% endcomment %}
+
+<section
+  id="MainPage-{{ section.id }}"
+  class="section section-main-page color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="main-page">
+  <div class="container container--{{ section.settings.container_width }}">
+    <div class="main-page main-page--{{ section.settings.content_alignment }}">
+      {% if section.settings.show_title %}
+        <header class="main-page__header">
+          <h1 class="main-page__title">{{ page.title | escape }}</h1>
+        </header>
+      {% endif %}
+
+      <div class="main-page__content rte">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #MainPage-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page {
+    max-width: {{ section.settings.content_width }}rem;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page--left {
+    margin-right: auto;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page--center {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page--right {
+    margin-left: auto;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__header {
+    margin-bottom: 3.2rem;
+    text-align: {{ section.settings.content_alignment }};
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__title {
+    font-size: clamp(3.2rem, 5vw, 5.6rem);
+    letter-spacing: -0.03em;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__content {
+    color: rgba(var(--color-base-text), 0.82);
+    font-size: 1.6rem;
+    line-height: 1.8;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__content > * + * {
+    margin-top: 1.8rem;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__content h2
+  , #MainPage-{{ section.id }}
+  .main-page__content h3
+  , #MainPage-{{ section.id }}
+  .main-page__content h4 {
+    margin-top: 3.2rem;
+    color: rgb(var(--color-base-heading));
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__content a {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+
+  #MainPage-{{ section.id }}
+  .main-page__content img {
+    border-radius: 0.4rem;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Main page",
+    "tag": "section",
+    "class": "section-main-page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          }, {
+            "value": "wide",
+            "label": "Wide"
+          }, {
+            "value": "full",
+            "label": "Full width"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "background-1"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show page title",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "content_alignment",
+        "label": "Content alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, {
+        "type": "range",
+        "id": "content_width",
+        "min": 60,
+        "max": 120,
+        "step": 4,
+        "unit": "rem",
+        "label": "Content width",
+        "default": 84
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Top padding",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Bottom padding",
+        "default": 72
+      }
+    ],
+    "presets": [
+      {
+        "name": "Main page"
+      }
+    ]
+  }
+{% endschema %}
