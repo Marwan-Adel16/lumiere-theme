@@ -1,0 +1,183 @@
+/* =========================================================
+   COLLECTION LAYOUT
+========================================================= */
+
+.collection-header {
+  margin-bottom: 50px;
+}
+
+.collection-header__image-wrapper {
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.collection-header__image {
+  width: 100%;
+  display: block;
+  border-radius: inherit;
+}
+
+.collection-header__content {
+  max-width: 900px;
+}
+
+.collection-header__title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.collection-header__description {
+  font-size: 17px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.72);
+}
+
+/* =========================================================
+   COLLECTION TOOLBAR
+========================================================= */
+
+.collection-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 35px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #ececec;
+}
+
+.collection-toolbar__filters,
+.collection-toolbar__sorting {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.collection-grid {
+  display: grid;
+  gap: 30px;
+}
+
+.grid--2-col-desktop {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3-col-desktop {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4-col-desktop {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--5-col-desktop {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.grid--1-col-mobile {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid--2-col-mobile {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 990px) {
+  .collection-grid {
+    gap: 20px;
+  }
+
+  .grid--2-col-desktop,
+  .grid--3-col-desktop,
+  .grid--4-col-desktop,
+  .grid--5-col-desktop {
+    grid-template-columns: inherit;
+  }
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.collection-empty {
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.collection-empty__content {
+  max-width: 600px;
+  margin: auto;
+}
+
+.collection-empty__title {
+  font-size: 34px;
+  margin-bottom: 18px;
+}
+
+.collection-empty__text {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination ul {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+
+.pagination a,
+.pagination span {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  transition: 0.25s;
+}
+
+.pagination a:hover {
+  background: #111;
+  color: #fff;
+}
+
+.pagination .is-active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 749px) {
+  .collection-header {
+    margin-bottom: 35px;
+  }
+
+  .collection-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
