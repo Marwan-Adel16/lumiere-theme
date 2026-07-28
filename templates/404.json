@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "badge_text": "404",
+        "heading": "Page not found",
+        "description": "<p>The page you are looking for may have been moved, deleted, or never existed. Try searching or continue shopping.</p>",
+        "show_search": true,
+        "search_placeholder": "Search products and pages",
+        "search_button_label": "Search",
+        "primary_button_label": "Continue shopping",
+        "primary_button_link": "shopify://collections/all",
+        "secondary_button_label": "Go home",
+        "secondary_button_link": "shopify://shop",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": ["main"]
+}
