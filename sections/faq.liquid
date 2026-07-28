@@ -1,0 +1,315 @@
+{% comment %} 
+  Section: faq.liquid
+  Theme: Lumiere Theme
+  Description: Configurable FAQ accordion section for product, page, and landing templates. 
+{% endcomment %}
+
+<section
+  id="FAQ-{{ section.id }}"
+  class="section section-faq color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="faq">
+  <div class="container container--{{ section.settings.container_width }}">
+    <div class="faq faq--{{ section.settings.layout }}">
+      <div class="faq__header">
+        {% if section.settings.badge_text != blank %}
+          <p class="faq__badge">{{ section.settings.badge_text | escape }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="faq__heading">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="faq__description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="faq__items">
+        {% for block in section.blocks %}
+          {% if block.settings.question != blank and block.settings.answer != blank %}
+            <details
+              class="faq__item"
+              {% if section.settings.open_first_item and forloop.first %}
+              open
+              {% endif %}
+              {{ block.shopify_attributes }}>
+              <summary class="faq__question">
+                <span>{{ block.settings.question | escape }}</span>
+                <span class="faq__icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    role="presentation"
+                    focusable="false">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </span>
+              </summary>
+              <div class="faq__answer rte">
+                {{ block.settings.answer }}
+              </div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #FAQ-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq {
+    display: grid;
+    gap: 3.2rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    #FAQ-{{ section.id }} .faq--two_columns {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__header {
+    max-width: 58rem;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__badge {
+    margin-bottom: 1.2rem;
+    color: rgb(var(--color-base-accent));
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__heading {
+    margin-bottom: 1.6rem;
+    font-size: clamp(3.2rem, 5vw, 5.2rem);
+    letter-spacing: -0.03em;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__description {
+    color: rgba(var(--color-base-text), 0.78);
+    font-size: 1.6rem;
+    line-height: 1.8;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__items {
+    display: grid;
+    border-top: 0.1rem solid rgba(var(--color-base-text), 0.12);
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__item {
+    border-bottom: 0.1rem solid rgba(var(--color-base-text), 0.12);
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2.2rem 0;
+    color: rgb(var(--color-base-heading));
+    cursor: pointer;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+    list-style: none;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    color: rgb(var(--color-base-accent));
+    transition: transform 0.2s ease;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__icon svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__answer {
+    max-width: 76rem;
+    padding: 0 4.4rem 2.4rem 0;
+    color: rgba(var(--color-base-text), 0.78);
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  #FAQ-{{ section.id }}
+  .faq__answer a {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "tag": "section",
+    "class": "section-faq",
+    "settings": [
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          }, {
+            "value": "wide",
+            "label": "Wide"
+          }, {
+            "value": "full",
+            "label": "Full width"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "background-1"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "two_columns",
+            "label": "Two columns"
+          }, {
+            "value": "stacked",
+            "label": "Stacked"
+          }
+        ],
+        "default": "two_columns"
+      },
+      {
+        "type": "text",
+        "id": "badge_text",
+        "label": "Badge text",
+        "default": "FAQ"
+      }, {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Frequently asked questions"
+      }, {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>Find quick answers about orders, shipping, returns, sizing, and product care.</p>"
+      }, {
+        "type": "checkbox",
+        "id": "open_first_item",
+        "label": "Open first item by default",
+        "default": true
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Top padding",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Bottom padding",
+        "default": 72
+      }
+    ],
+    "blocks": [
+      {
+        "type": "question",
+        "name": "Question",
+        "settings": [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question",
+            "default": "What is your shipping policy?"
+          }, {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer",
+            "default": "<p>We process orders within 1-2 business days. Delivery times vary by destination and shipping method.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FAQ",
+        "blocks": [
+          {
+            "type": "question",
+            "settings": {
+              "question": "What is your shipping policy?",
+              "answer": "<p>We process orders within 1-2 business days. Delivery times vary by destination and shipping method.</p>"
+            }
+          }, {
+            "type": "question",
+            "settings": {
+              "question": "What is your return policy?",
+              "answer": "<p>Returns are accepted within 14 days of delivery for eligible items in original condition.</p>"
+            }
+          }, {
+            "type": "question",
+            "settings": {
+              "question": "How do I choose the right size?",
+              "answer": "<p>Check the size guide on each product page and contact us if you need personalized support.</p>"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
