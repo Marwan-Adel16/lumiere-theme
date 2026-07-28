@@ -1,0 +1,413 @@
+{% comment %} 
+  Section: contact-form.liquid
+  Theme: Lumiere Theme
+  Description: Configurable contact form section for Shopify pages. 
+{% endcomment %}
+
+<section
+  id="ContactForm-{{ section.id }}"
+  class="section section-contact-form color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="contact-form">
+  <div class="container container--{{ section.settings.container_width }}">
+    <div class="contact-form contact-form--{{ section.settings.layout }}">
+      <div class="contact-form__content">
+        {% if section.settings.badge_text != blank %}
+          <p class="contact-form__badge">{{ section.settings.badge_text | escape }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="contact-form__heading">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="contact-form__description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+
+        <div class="contact-form__details">
+          {% if section.settings.email != blank %}
+            <p class="contact-form__detail">
+              <span>{{ section.settings.email_label | escape }}</span>
+              <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>
+            </p>
+          {% endif %}
+
+          {% if section.settings.phone != blank %}
+            <p class="contact-form__detail">
+              <span>{{ section.settings.phone_label | escape }}</span>
+              <a href="tel:{{ section.settings.phone | remove: ' ' | escape }}">{{ section.settings.phone | escape }}</a>
+            </p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="contact-form__panel">
+        {% form 'contact'
+          , class: 'contact-form__form' %}
+          {% if form.posted_successfully? %}
+            <div
+              class="form-status form-status--success"
+              tabindex="-1"
+              autofocus>
+              {{ 'templates.contact.form.post_success' | t | default: 'Thanks for contacting us. We will get back to you as soon as possible.' }}
+            </div>
+          {% elsif form.errors %}
+            <div
+              class="form-status form-status--error"
+              tabindex="-1"
+              autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <div class="contact-form__fields">
+            <div class="field">
+              <label class="field__label" for="ContactFormName-{{ section.id }}">
+                {{ 'templates.contact.form.name' | t | default: 'Name' }}
+              </label>
+              <input
+                id="ContactFormName-{{ section.id }}"
+                class="field__input"
+                autocomplete="name"
+                type="text"
+                name="contact[name]"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                placeholder="{{ 'templates.contact.form.name' | t | default: 'Name' }}">
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="ContactFormEmail-{{ section.id }}">
+                {{ 'templates.contact.form.email' | t | default: 'Email' }}
+                <span aria-hidden="true">*</span>
+              </label>
+              <input
+                id="ContactFormEmail-{{ section.id }}"
+                class="field__input"
+                autocomplete="email"
+                type="email"
+                name="contact[email]"
+                spellcheck="false"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                aria-required="true"
+                {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="ContactFormEmailError-{{ section.id }}"
+                {% endif %}
+                placeholder="{{ 'templates.contact.form.email' | t | default: 'Email' }}"
+                required>
+              {% if form.errors contains 'email' %}
+                <small id="ContactFormEmailError-{{ section.id }}" class="field__error">
+                  {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+                </small>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="ContactFormPhone-{{ section.id }}">
+              {{ 'templates.contact.form.phone' | t | default: 'Phone number' }}
+            </label>
+            <input
+              id="ContactFormPhone-{{ section.id }}"
+              class="field__input"
+              type="tel"
+              name="contact[phone]"
+              autocomplete="tel"
+              pattern="[0-9\-\+\(\)\s]*"
+              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+              placeholder="{{ 'templates.contact.form.phone' | t | default: 'Phone number' }}">
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="ContactFormMessage-{{ section.id }}">
+              {{ 'templates.contact.form.comment' | t | default: 'Comment' }}
+              <span aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="ContactFormMessage-{{ section.id }}"
+              class="field__input field__input--textarea"
+              rows="6"
+              name="contact[body]"
+              aria-required="true"
+              placeholder="{{ 'templates.contact.form.comment' | t | default: 'Comment' }}"
+              required>{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="button button--primary contact-form__button">
+            {{ section.settings.button_label | escape }}
+          </button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #ContactForm-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form {
+    display: grid;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  @media screen and (min-width: 990px) {
+    #ContactForm-{{ section.id }} .contact-form--two_columns {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 6rem;
+    }
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__content {
+    max-width: 56rem;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__badge {
+    margin-bottom: 1.2rem;
+    color: rgb(var(--color-base-accent));
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__heading {
+    margin-bottom: 1.6rem;
+    font-size: clamp(3.2rem, 5vw, 5.2rem);
+    letter-spacing: -0.03em;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__description {
+    color: rgba(var(--color-base-text), 0.78);
+    font-size: 1.6rem;
+    line-height: 1.8;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__details {
+    display: grid;
+    gap: 1.6rem;
+    margin-top: 3.2rem;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__detail {
+    margin: 0;
+    color: rgba(var(--color-base-text), 0.82);
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__detail span {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: rgb(var(--color-base-heading));
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__panel {
+    padding: clamp(2.4rem, 4vw, 4rem);
+    border: 0.1rem solid rgba(var(--color-base-text), 0.1);
+    border-radius: {{ section.settings.panel_radius }}px;
+    background-color: rgba(var(--color-base-text), 0.025);
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__form
+  , #ContactForm-{{ section.id }}
+  .contact-form__fields {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ContactForm-{{ section.id }} .contact-form__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  #ContactForm-{{ section.id }}
+  .field {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  #ContactForm-{{ section.id }}
+  .field__label {
+    color: rgb(var(--color-base-heading));
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  #ContactForm-{{ section.id }}
+  .field__input {
+    width: 100%;
+    min-height: 4.8rem;
+    padding: 1.2rem 1.4rem;
+    border: 0.1rem solid rgba(var(--color-base-text), 0.18);
+    border-radius: 0.2rem;
+    background: rgb(var(--color-base-background));
+    color: rgb(var(--color-base-text));
+    transition: border-color 0.2s ease
+    , box-shadow 0.2s ease;
+  }
+
+  #ContactForm-{{ section.id }}.field__input:focus {
+    border-color: rgb(var(--color-base-accent));
+    outline: none;
+    box-shadow: 0 0 0 0.3rem rgba(var(--color-base-accent), 0.12);
+  }
+
+  #ContactForm-{{ section.id }}
+  .field__input--textarea {
+    min-height: 14rem;
+    resize: vertical;
+  }
+
+  #ContactForm-{{ section.id }}
+  .field__error {
+    color: #d32f2f;
+    font-size: 1.2rem;
+  }
+
+  #ContactForm-{{ section.id }}
+  .contact-form__button {
+    justify-self: flex-start;
+    min-width: 16rem;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Contact form",
+    "tag": "section",
+    "class": "section-contact-form",
+    "settings": [
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          }, {
+            "value": "wide",
+            "label": "Wide"
+          }, {
+            "value": "full",
+            "label": "Full width"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "background-1"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "two_columns",
+            "label": "Two columns"
+          }, {
+            "value": "stacked",
+            "label": "Stacked"
+          }
+        ],
+        "default": "two_columns"
+      },
+      {
+        "type": "text",
+        "id": "badge_text",
+        "label": "Badge text",
+        "default": "Contact us"
+      }, {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "We are here to help"
+      }, {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>Have a question about sizing, shipping, or your order? Send us a message and our team will respond shortly.</p>"
+      }, {
+        "type": "text",
+        "id": "email_label",
+        "label": "Email label",
+        "default": "Email"
+      }, {
+        "type": "text",
+        "id": "email",
+        "label": "Email",
+        "default": "support@example.com"
+      }, {
+        "type": "text",
+        "id": "phone_label",
+        "label": "Phone label",
+        "default": "Phone"
+      }, {
+        "type": "text",
+        "id": "phone",
+        "label": "Phone"
+      }, {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label",
+        "default": "Send message"
+      }, {
+        "type": "range",
+        "id": "panel_radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "label": "Form panel radius",
+        "default": 8
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Top padding",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 120,
+        "step": 4,
+        "unit": "px",
+        "label": "Bottom padding",
+        "default": 72
+      }
+    ],
+    "presets": [
+      {
+        "name": "Contact form"
+      }
+    ]
+  }
+{% endschema %}
