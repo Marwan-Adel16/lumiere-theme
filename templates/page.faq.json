@@ -1,0 +1,62 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "show_title": true,
+        "content_alignment": "center",
+        "content_width": 76,
+        "padding_top": 56,
+        "padding_bottom": 24
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "shipping": {
+          "type": "question",
+          "settings": {
+            "question": "What is your shipping policy?",
+            "answer": "<p>We process orders within 1-2 business days. Delivery times vary by destination and selected shipping method.</p>"
+          }
+        },
+        "returns": {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>Returns are accepted within 14 days of delivery for eligible items in original, unworn condition.</p>"
+          }
+        },
+        "sizing": {
+          "type": "question",
+          "settings": {
+            "question": "How do I choose the right size?",
+            "answer": "<p>Use the size guide on each product page and contact our team if you need personalized fit support.</p>"
+          }
+        },
+        "care": {
+          "type": "question",
+          "settings": {
+            "question": "How should I care for my items?",
+            "answer": "<p>Follow the care label inside each garment. For best results, wash similar colors together and avoid high heat.</p>"
+          }
+        }
+      },
+      "block_order": ["shipping", "returns", "sizing", "care"],
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "layout": "two_columns",
+        "badge_text": "FAQ",
+        "heading": "Frequently asked questions",
+        "description": "<p>Find quick answers about orders, shipping, returns, sizing, and product care.</p>",
+        "open_first_item": true,
+        "padding_top": 24,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": ["main", "faq"]
+}
