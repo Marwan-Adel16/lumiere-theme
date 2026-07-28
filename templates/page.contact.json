@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "show_title": true,
+        "content_alignment": "center",
+        "content_width": 76,
+        "padding_top": 56,
+        "padding_bottom": 24
+      }
+    },
+    "contact_form": {
+      "type": "contact-form",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "layout": "two_columns",
+        "badge_text": "Contact us",
+        "heading": "We are here to help",
+        "description": "<p>Questions about sizing, shipping, returns, or your order? Send us a message and our team will respond shortly.</p>",
+        "email_label": "Email",
+        "email": "support@example.com",
+        "phone_label": "Phone",
+        "phone": "",
+        "button_label": "Send message",
+        "panel_radius": 8,
+        "padding_top": 24,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": ["main", "contact_form"]
+}
