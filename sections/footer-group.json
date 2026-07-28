@@ -1,0 +1,51 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "store_info": {
+          "type": "info",
+          "settings": {
+            "logo_width": 120,
+            "heading": "Lumiere",
+            "text": "<p>Modern essentials crafted for everyday elegance.</p>"
+          }
+        },
+        "quick_links": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "footer"
+          }
+        },
+        "customer_care": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Customer care",
+            "menu": "footer"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Stay in touch",
+            "text": "<p>Receive early access to new arrivals, private offers, and styling inspiration.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "store_info",
+        "quick_links",
+        "customer_care",
+        "newsletter"
+      ],
+      "settings": {
+        "show_social": true,
+        "payment_enable": true
+      }
+    }
+  },
+  "order": ["footer"]
+}
