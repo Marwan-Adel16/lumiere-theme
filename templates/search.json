@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "badge_text": "Search",
+        "heading": "Search our store",
+        "description": "<p>Find products, collections, and helpful content from Lumiere.</p>",
+        "placeholder": "Search products, articles, and pages",
+        "button_label": "Search",
+        "search_types": "product,page,article",
+        "results_per_page": 16,
+        "desktop_columns": 4,
+        "mobile_columns": "2",
+        "show_vendor": false,
+        "show_rating": true,
+        "no_results_heading": "No results found",
+        "no_results_text": "<p>Try checking your spelling or using a more general search term.</p>",
+        "padding_top": 56,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": ["main"]
+}
