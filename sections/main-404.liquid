@@ -1,0 +1,257 @@
+{% comment %} 
+  Section: main-404.liquid
+  Theme: Lumiere Theme
+  Description: Custom 404 page with search and shopping recovery actions. 
+{% endcomment %}
+
+<section
+  id="NotFound-{{ section.id }}"
+  class="section section-main-404 color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="main-404">
+  <div class="container container--{{ section.settings.container_width }}">
+    <div class="main-404">
+      {% if section.settings.badge_text != blank %}
+        <p class="main-404__badge">{{ section.settings.badge_text | escape }}</p>
+      {% endif %}
+
+      <h1 class="main-404__heading">{{ section.settings.heading | escape }}</h1>
+
+      {% if section.settings.description != blank %}
+        <div class="main-404__description rte">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_search %}
+        <form
+          action="{{ routes.search_url }}"
+          method="get"
+          role="search"
+          class="main-404__search-form">
+          <label class="visually-hidden" for="NotFoundSearch-{{ section.id }}">
+            {{ 'general.search.search' | t | default: 'Search' }}
+          </label>
+          <input
+            id="NotFoundSearch-{{ section.id }}"
+            class="main-404__search-input"
+            type="search"
+            name="q"
+            placeholder="{{ section.settings.search_placeholder | escape }}"
+            autocomplete="off">
+          <input
+            type="hidden"
+            name="type"
+            value="product,page,article">
+          <button type="submit" class="button button--primary main-404__search-button">
+            {{ section.settings.search_button_label | escape }}
+          </button>
+        </form>
+      {% endif %}
+
+      <div class="main-404__actions">
+        {% if section.settings.primary_button_label != blank %}
+          <a href="{{ section.settings.primary_button_link | default: routes.all_products_collection_url }}" class="button button--primary">
+            {{ section.settings.primary_button_label | escape }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank %}
+          <a href="{{ section.settings.secondary_button_link }}" class="button button--secondary">
+            {{ section.settings.secondary_button_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #NotFound-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404 {
+    max-width: 76rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__badge {
+    margin-bottom: 1.2rem;
+    color: rgb(var(--color-base-accent));
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__heading {
+    margin-bottom: 1.6rem;
+    font-size: clamp(4.8rem, 10vw, 9.6rem);
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__description {
+    max-width: 58rem;
+    margin: 0 auto;
+    color: rgba(var(--color-base-text), 0.76);
+    font-size: 1.6rem;
+    line-height: 1.8;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 62rem;
+    margin: 3.2rem auto 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    #NotFound-{{ section.id }} .main-404__search-form {
+      flex-direction: row;
+    }
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__search-input {
+    width: 100%;
+    min-height: 5.2rem;
+    padding: 1.3rem 1.6rem;
+    border: 0.1rem solid rgba(var(--color-base-text), 0.18);
+    border-radius: 0.2rem;
+    background: rgb(var(--color-base-background));
+    color: rgb(var(--color-base-text));
+  }
+
+  #NotFound-{{ section.id }}.main-404__search-input:focus {
+    border-color: rgb(var(--color-base-accent));
+    outline: none;
+    box-shadow: 0 0 0 0.3rem rgba(var(--color-base-accent), 0.12);
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__search-button {
+    min-height: 5.2rem;
+    white-space: nowrap;
+  }
+
+  #NotFound-{{ section.id }}
+  .main-404__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 3.2rem;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Main 404",
+    "tag": "section",
+    "class": "section-main-404",
+    "settings": [
+      {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          }, {
+            "value": "wide",
+            "label": "Wide"
+          }, {
+            "value": "full",
+            "label": "Full width"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "background-1"
+      },
+      {
+        "type": "text",
+        "id": "badge_text",
+        "label": "Badge text",
+        "default": "404"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Page not found"
+      }, {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>The page you are looking for may have been moved, deleted, or never existed. Try searching or continue shopping.</p>"
+      }, {
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "Show search form",
+        "default": true
+      }, {
+        "type": "text",
+        "id": "search_placeholder",
+        "label": "Search placeholder",
+        "default": "Search products and pages"
+      }, {
+        "type": "text",
+        "id": "search_button_label",
+        "label": "Search button label",
+        "default": "Search"
+      }, {
+        "type": "text",
+        "id": "primary_button_label",
+        "label": "Primary button label",
+        "default": "Continue shopping"
+      }, {
+        "type": "url",
+        "id": "primary_button_link",
+        "label": "Primary button link"
+      }, {
+        "type": "text",
+        "id": "secondary_button_label",
+        "label": "Secondary button label",
+        "default": "Go home"
+      }, {
+        "type": "url",
+        "id": "secondary_button_link",
+        "label": "Secondary button link"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 160,
+        "step": 4,
+        "unit": "px",
+        "label": "Top padding",
+        "default": 96
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 160,
+        "step": 4,
+        "unit": "px",
+        "label": "Bottom padding",
+        "default": 96
+      }
+    ]
+  }
+{% endschema %}
