@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1",
+        "show_title": true,
+        "content_alignment": "center",
+        "content_width": 84,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": ["main"]
+}
