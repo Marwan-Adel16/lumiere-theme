@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "container_width": "standard",
+        "color_scheme": "background-1"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "badge_text": "Join Lumiere",
+        "heading": "Enjoy 10% Off Your Next Order",
+        "description": "<p>Subscribe for early access to new collections, private offers, and styling inspiration.</p>",
+        "layout": "background",
+        "show_image": false,
+        "overlay_opacity": 40,
+        "color_scheme": "light",
+        "button_style": "primary",
+        "border_radius": 0,
+        "enable_animation": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    }
+  },
+  "order": ["main", "newsletter"]
+}
