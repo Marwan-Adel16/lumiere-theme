@@ -396,7 +396,15 @@
                 class: 'header__logo-image',
                 width: logo_width,
                 height: section.settings.logo.height,
-                alt: section.settings.logo.alt | default: shop.name | escape,
+                {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
+
+{{ section.settings.logo | image_url: width: logo_width_2x | image_tag:
+  class: 'header__logo-image',
+  width: logo_width,
+  height: section.settings.logo.height,
+  alt: logo_alt,
+  style: 'width: ' | append: logo_width | append: 'px'
+}}
                 style: 'width: ' | append: logo_width | append: 'px'
               }}
             {%- else -%}

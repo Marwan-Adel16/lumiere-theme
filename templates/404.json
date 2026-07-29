@@ -14,7 +14,7 @@
         "primary_button_label": "Continue shopping",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Go home",
-        "secondary_button_link": "shopify://shop",
+        "secondary_button_link": "/",
         "padding_top": 96,
         "padding_bottom": 96
       }
