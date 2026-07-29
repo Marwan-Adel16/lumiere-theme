@@ -1,0 +1,66 @@
+{%- comment -%} 
+  ------------------------------------------------------------------------------
+  Facets
+  Lumiere Theme
+  Responsible for: 
+  - Active filters 
+  - Price filter 
+  - List filters
+  ------------------------------------------------------------------------------ 
+{%- endcomment -%}
+
+<div class="facets" data-facets>
+
+  {% if results.filters != blank %}
+
+    <form id="FacetFiltersForm" class="facets__form">
+
+      <div class="facets__header">
+
+        <h2 class="facets__title">
+          {{ 'products.facets.filter_by_label' | t | default: 'Filters' }}
+        </h2>
+
+        {% if results.current_vendor
+ or results.current_type
+ or results.filters | map: 'active_values' | join != blank
+        %}
+
+          <a href="{{ results.url }}" class="facets__clear">
+
+            {{ 'products.facets.clear_all' | t | default: 'Clear all' }}
+
+          </a>
+
+        {% endif %}
+
+      </div>
+
+      <div class="facets__body">
+
+        {% for filter in results.filters %}
+
+          {% render 'facet-item'
+            ,
+ filter: filter
+          %}
+
+        {% endfor %}
+
+      </div>
+
+      <div class="facets__footer">
+
+        <button class="button button--primary" type="submit">
+
+          {{ 'products.facets.apply' | t | default: 'Apply Filters' }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  {% endif %}
+
+</div>
