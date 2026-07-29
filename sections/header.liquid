@@ -390,26 +390,21 @@
       {%- endif -%}
           <a href="{{ routes.root_url }}" class="header__heading-link">
             {%- if section.settings.logo != blank -%}
-              {%- assign logo_width = section.settings.logo_width -%}
-              {%- assign logo_width_2x = logo_width | times: 2 -%}
-              {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
-              {{ section.settings.logo | image_url: width: logo_width_2x | image_tag:
-                class: 'header__logo-image',
-                width: logo_width,
-                height: section.settings.logo.height,
+  {%- assign logo_width = section.settings.logo_width -%}
+  {%- assign logo_width_2x = logo_width | times: 2 -%}
+  {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
 
-{{ section.settings.logo | image_url: width: logo_width_2x | image_tag:
-  class: 'header__logo-image',
-  width: logo_width,
-  height: section.settings.logo.height,
-  alt: logo_alt,
-  style: 'width: ' | append: logo_width | append: 'px'
-}}
-                style: 'width: ' | append: logo_width | append: 'px'
-              }}
-            {%- else -%}
-              <span class="header__heading-text">{{ shop.name }}</span>
-            {%- endif -%}
+  {{ section.settings.logo | image_url: width: logo_width_2x | image_tag:
+    class: 'header__logo-image',
+    width: logo_width,
+    height: section.settings.logo.height,
+    alt: logo_alt,
+    style: 'width: ' | append: logo_width | append: 'px'
+  }}
+
+{%- else -%}
+  <span class="header__heading-text">{{ shop.name }}</span>
+{%- endif -%}
           </a>
       {%- if request.page_type == 'index' -%}
         </h1>
