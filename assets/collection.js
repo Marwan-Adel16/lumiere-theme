@@ -58,19 +58,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================
-     Filter Drawer (Placeholder)
-  ============================================ */
+   Filter Drawer
+============================================ */
 
-  const filterButton = document.querySelector("[data-open-filters]");
+  const filterDrawer = document.querySelector("[data-filter-drawer]");
 
-  if (filterButton) {
-    filterButton.addEventListener("click", () => {
-      console.log("Open Filter Drawer");
+  if (filterDrawer) {
+    const overlay = filterDrawer.querySelector("[data-filter-overlay]");
+    const panel = filterDrawer.querySelector(".filter-drawer__panel");
+    const closeButton = filterDrawer.querySelector("[data-filter-close]");
+    const openButtons = document.querySelectorAll("[data-open-filters]");
 
-      /*
-        سيتم ربط Drawer الحقيقي
-        في المرحلة القادمة
-      */
+    openButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterDrawer.classList.add("is-open");
+        document.body.classList.add("overflow-hidden");
+        panel?.focus();
+      });
+    });
+
+    function closeDrawer() {
+      filterDrawer.classList.remove("is-open");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    closeButton?.addEventListener("click", closeDrawer);
+    overlay?.addEventListener("click", closeDrawer);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDrawer();
+      }
     });
   }
 });
