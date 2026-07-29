@@ -1,0 +1,69 @@
+{% liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+%}
+
+<div class="collection-sort" data-sort-dropdown>
+
+  <label class="collection-sort__label" for="SortBy">
+    Sort by
+  </label>
+
+  <div class="collection-sort__wrapper">
+
+    <select
+      id="SortBy"
+      class="collection-sort__select"
+      data-sort-select>
+
+      {% for option in collection.sort_options %}
+        <option
+          value="{{ option.value }}"
+          {% if option.value == sort_by %}
+          selected="selected"
+          {% endif %}>
+          {{ option.name }}
+        </option>
+      {% endfor %}
+
+    </select>
+
+    <svg
+      class="collection-sort__icon"
+      width="18"
+      height="18"
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true">
+
+      <path
+        d="M5 7L10 12L15 7"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+
+    </svg>
+
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  
+  const select = document.querySelector('[data-sort-select]');
+  
+  if (!select) return;
+  
+  select.addEventListener('change', () => {
+  
+    const url = new URL(window.location.href);
+  
+    url.searchParams.set('sort_by', select.value);
+  
+    window.location.href = url.toString();
+  
+  });
+  
+  });
+</script>
