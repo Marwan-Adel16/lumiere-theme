@@ -1,0 +1,138 @@
+{%- comment -%} 
+  ------------------------------------------------------------------------------
+  Facet Item
+  Render single Shopify filter
+  ------------------------------------------------------------------------------ 
+{%- endcomment -%}
+
+<details class="facet" data-facet>
+
+  <summary class="facet__summary">
+
+    <span class="facet__label">
+
+      {{ filter.label }}
+
+    </span>
+
+    {% if filter.active_values.size > 0 %}
+
+      <span class="facet__count">
+
+        {{ filter.active_values.size }}
+
+      </span>
+
+    {% endif %}
+
+  </summary>
+
+  <div class="facet__content">
+
+    {% case filter.type %}
+
+      {% when 'boolean' %}
+
+        {% for value in filter.values %}
+
+          <label class="facet-checkbox">
+
+            <input
+              type="checkbox"
+              name="{{ value.param_name }}"
+              value="{{ value.value }}"
+              {% if value.active %}
+              checked
+              {% endif %}
+              {% if value.count == 0 and value.active == false %}
+              disabled
+              {% endif %}>
+
+            <span>{{ value.label }}</span>
+
+            <span class="facet-checkbox__count">
+
+              {{ value.count }}
+
+            </span>
+
+          </label>
+
+        {% endfor %}
+
+      {% when 'list' %}
+
+        {% for value in filter.values %}
+
+          <label class="facet-checkbox">
+
+            <input
+              type="checkbox"
+              name="{{ value.param_name }}"
+              value="{{ value.value }}"
+              {% if value.active %}
+              checked
+              {% endif %}
+              {% if value.count == 0 and value.active == false %}
+              disabled
+              {% endif %}>
+
+            <span>{{ value.label }}</span>
+
+            <span class="facet-checkbox__count">
+
+              {{ value.count }}
+
+            </span>
+
+          </label>
+
+        {% endfor %}
+
+      {% when 'price_range' %}
+
+        <div class="facet-price">
+
+          <div class="facet-price__field">
+
+            <label>
+
+              {{ 'products.facets.from' | t | default: 'From' }}
+
+            </label>
+
+            <input
+              type="number"
+              name="{{ filter.min_value.param_name }}"
+              {% if filter.min_value.value %}
+              value="{{ filter.min_value.value }}"
+              {% endif %}
+              min="0">
+
+          </div>
+
+          <div class="facet-price__field">
+
+            <label>
+
+              {{ 'products.facets.to' | t | default: 'To' }}
+
+            </label>
+
+            <input
+              type="number"
+              name="{{ filter.max_value.param_name }}"
+              {% if filter.max_value.value %}
+              value="{{ filter.max_value.value }}"
+              {% endif %}
+              max="{{ filter.range_max }}">
+
+          </div>
+
+        </div>
+
+    {% endcase %}
+
+  </div>
+
+</details>
