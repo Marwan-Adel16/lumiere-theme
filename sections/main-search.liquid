@@ -1,7 +1,7 @@
 {% comment %} 
-    Section: main-search.liquid
-    Theme: Lumiere Theme
-    Description: Search results page with product cards and non-product result cards. 
+      Section: main-search.liquid
+      Theme: Lumiere Theme
+      Description: Search results page with product cards and non-product result cards. 
 {% endcomment %}
 
 <section
@@ -17,7 +17,7 @@
 
       <h1 class="search-header__title">
         {% if search.performed %}
-          {{ 'templates.search.title' | t | default: 'Search results' }}
+          <h1>Search results</h1>
         {% else %}
           {{ section.settings.heading | escape }}
         {% endif %}
@@ -35,7 +35,7 @@
         role="search"
         class="search-form">
         <label class="visually-hidden" for="SearchInput-{{ section.id }}">
-          {{ 'general.search.search' | t | default: 'Search' }}
+          <h1>Search</h1>
         </label>
         <input
           id="SearchInput-{{ section.id }}"

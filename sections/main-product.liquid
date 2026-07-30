@@ -1,7 +1,7 @@
 {%- comment -%} 
-  Section: main-product.liquid
-  Theme: Lumiere Theme
-  Description: Main product page section that orchestrates the product gallery and information layout. 
+    Section: main-product.liquid
+    Theme: Lumiere Theme
+    Description: Main product page section that orchestrates the product gallery and information layout. 
 {%- endcomment -%}
 
 <section
@@ -42,28 +42,28 @@
 
 {% schema %}
   {
-    "name": "t:sections.main-product.name",
+    "name": "Main product",
     "tag": "section",
     "class": "section-main-product",
     "settings": [
       {
         "type": "header",
-        "content": "t:sections.main-product.settings.header_layout.content"
+        "content": "Layout"
       },
       {
         "type": "select",
         "id": "container_width",
-        "label": "t:sections.main-product.settings.container_width.label",
+        "label": "Container width",
         "options": [
           {
             "value": "standard",
-            "label": "t:sections.main-product.settings.container_width.options.standard"
+            "label": "Standard"
           }, {
             "value": "wide",
-            "label": "t:sections.main-product.settings.container_width.options.wide"
+            "label": "Wide"
           }, {
             "value": "full",
-            "label": "t:sections.main-product.settings.container_width.options.full"
+            "label": "Full width"
           }
         ],
         "default": "standard"
@@ -71,14 +71,14 @@
       {
         "type": "select",
         "id": "gallery_position",
-        "label": "t:sections.main-product.settings.gallery_position.label",
+        "label": "Gallery position",
         "options": [
           {
             "value": "left",
-            "label": "t:sections.main-product.settings.gallery_position.options.left"
+            "label": "Left"
           }, {
             "value": "right",
-            "label": "t:sections.main-product.settings.gallery_position.options.right"
+            "label": "Right"
           }
         ],
         "default": "left"
@@ -86,41 +86,41 @@
       {
         "type": "checkbox",
         "id": "enable_sticky_info",
-        "label": "t:sections.main-product.settings.enable_sticky_info.label",
+        "label": "Enable sticky product info",
         "default": true
       }, {
         "type": "select",
         "id": "desktop_gap",
-        "label": "t:sections.main-product.settings.desktop_gap.label",
+        "label": "Desktop gap",
         "options": [
           {
             "value": "small",
-            "label": "t:sections.main-product.settings.desktop_gap.options.small"
+            "label": "Small"
           }, {
             "value": "medium",
-            "label": "t:sections.main-product.settings.desktop_gap.options.medium"
+            "label": "Medium"
           }, {
             "value": "large",
-            "label": "t:sections.main-product.settings.desktop_gap.options.large"
+            "label": "Large"
           }
         ],
         "default": "medium"
       }, {
         "type": "header",
-        "content": "t:sections.main-product.settings.header_appearance.content"
+        "content": "Appearance"
       }, {
         "type": "color_scheme",
         "id": "color_scheme",
-        "label": "t:sections.main-product.settings.color_scheme.label",
+        "label": "Color scheme",
         "default": "background-1"
       }, {
         "type": "checkbox",
         "id": "enable_animation",
-        "label": "t:sections.main-product.settings.enable_animation.label",
+        "label": "Enable animations",
         "default": true
       }, {
         "type": "header",
-        "content": "t:sections.main-product.settings.header_padding.content"
+        "content": "Padding"
       }, {
         "type": "range",
         "id": "padding_top",
@@ -128,7 +128,7 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.padding_top.label",
+        "label": "Top padding",
         "default": 40
       }, {
         "type": "range",
@@ -137,7 +137,7 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.padding_bottom.label",
+        "label": "Bottom padding",
         "default": 40
       }, {
         "type": "range",
@@ -146,7 +146,7 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.padding_top_mobile.label",
+        "label": "Top padding (mobile)",
         "default": 24
       }, {
         "type": "range",
@@ -155,11 +155,11 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.padding_bottom_mobile.label",
+        "label": "Bottom padding (mobile)",
         "default": 24
       }, {
         "type": "header",
-        "content": "t:sections.main-product.settings.header_margin.content"
+        "content": "Margin"
       }, {
         "type": "range",
         "id": "margin_top",
@@ -167,7 +167,7 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.margin_top.label",
+        "label": "Top margin",
         "default": 0
       }, {
         "type": "range",
@@ -176,13 +176,13 @@
         "max": 120,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.main-product.settings.margin_bottom.label",
+        "label": "Bottom margin",
         "default": 0
       }
     ],
     "presets": [
       {
-        "name": "t:sections.main-product.presets.name"
+        "name": "Main product"
       }
     ]
   }

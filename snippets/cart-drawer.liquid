@@ -1,5 +1,5 @@
 {% comment %} 
-  Snippet: cart-drawer.liquid 
+    Snippet: cart-drawer.liquid 
 {% endcomment %}
 
 <div
@@ -18,7 +18,7 @@
     <header class="cart-drawer__header">
 
       <h2 class="cart-drawer__title">
-        {{ 'sections.cart.title' | t | default: 'Shopping Cart' }}
+        Shopping Cart
       </h2>
 
       <button
@@ -45,7 +45,7 @@
         <div class="cart-drawer__empty">
 
           <p>
-            {{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}
+            Your cart is empty
           </p>
 
           <a href="{{ routes.all_products_collection_url }}" class="button button--primary">
