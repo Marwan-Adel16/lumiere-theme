@@ -1,5 +1,3 @@
-/* locales/en.default.json */
-
 {
   "general": {
     "accessibility": {
@@ -11,7 +9,8 @@
     },
     "currency": {
       "fallback": "USD"
-    }
+    },
+    "continue_shopping": "Continue shopping"
   },
   "layout": {
     "cart": {
@@ -23,6 +22,14 @@
     },
     "footer": {
       "copyright": "© {{ year }} {{ shop_name }}. All rights reserved."
+    }
+  },
+  "collections": {
+    "general": {
+      "collection_label": "Collection",
+      "products": "Products",
+      "no_matches": "No products found",
+      "use_fewer_filters": "Try using fewer filters"
     }
   }
 }

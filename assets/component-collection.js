@@ -3,7 +3,7 @@ class CollectionController {
     this.drawer = document.querySelector("[data-filter-drawer]");
     this.overlay = document.querySelector("[data-filter-overlay]");
     this.openButtons = document.querySelectorAll("[data-open-filters]");
-    this.closeButtons = document.querySelectorAll("[data-close-filters]");
+    this.closeButtons = document.querySelectorAll("[data-filter-close]");
 
     if (!this.drawer) return;
 
@@ -37,19 +37,11 @@ class CollectionController {
   openDrawer() {
     this.drawer.classList.add("is-open");
 
-    if (this.overlay) {
-      this.overlay.classList.add("is-visible");
-    }
-
     document.body.classList.add("overflow-hidden");
   }
 
   closeDrawer() {
     this.drawer.classList.remove("is-open");
-
-    if (this.overlay) {
-      this.overlay.classList.remove("is-visible");
-    }
 
     document.body.classList.remove("overflow-hidden");
   }
