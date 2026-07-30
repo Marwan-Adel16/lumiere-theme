@@ -1,7 +1,7 @@
 {% comment %} 
-            Snippet: product-gallery.liquid
-            Description: Premium product media gallery with main viewer, thumbnails, video support, and zoom readiness.
-            Usage: {% render 'product-gallery', product: product %} 
+                      Snippet: product-gallery.liquid
+                      Description: Premium product media gallery with main viewer, thumbnails, video support, and zoom readiness.
+                      Usage: {% render 'product-gallery', product: product %} 
 {% endcomment %}
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -17,11 +17,11 @@
     <div class="product-gallery__badges">
       {%- unless current_variant.available -%}
         <span class="product-badge product-badge--sold-out" aria-hidden="true">
-          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+          Sold Out
         </span>
       {%- elsif on_sale -%}
         <span class="product-badge product-badge--sale" aria-hidden="true">
-          {{ 'products.product.on_sale' | t | default: 'Sale' }}
+          Sale
         </span>
       {%- endunless -%}
     </div>
@@ -56,12 +56,15 @@
                 class="product-gallery__zoom-wrapper"
                 data-zoom-wrapper
                 data-zoom-src="{{ media | image_url: width: 2048 }}">
+                {%- assign media_alt = media.alt | default: product.title | escape -%}
+
                 {{ media | image_url: width: 1200 | image_tag:
  class: 'product-gallery__image',
  loading: loading_strategy,
  fetchpriority: fetch_priority,
- widths: '360, 540, 720, 900, 1080, 1200, 1500',
- alt: media.alt | default: product.title | escape
+ widths: '360,540,720,900,1080,1200,1500',
+ alt: media_alt
+                }}
                 }}
               </div>
 
@@ -101,14 +104,15 @@
               type="button"
               class="product-gallery__thumbnail-btn {% if is_active %}is-active{% endif %}"
               data-target-media-id="{{ media.id }}"
-              aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load media ' | append: forloop.index }}"
               aria-current="{% if is_active %}true{% else %}false{% endif %}">
 
-              {{ media.preview_image | image_url: width: 150 | image_tag: 
+              {%- assign thumb_alt = media.alt | default: product.title | escape -%}
+
+              {{ media.preview_image | image_url: width: 150 | image_tag:
  class: 'product-gallery__thumbnail-image',
  loading: 'lazy',
- widths: '75, 100, 150',
- alt: media.alt | default: product.title | escape
+ widths: '75,100,150',
+ alt: thumb_alt
               }}
 
               {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}

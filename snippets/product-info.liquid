@@ -8,7 +8,11 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign product_form_id = 'product-form-' | append: section_id | append: '-' | append: product.id -%}
 
-<div class="product-info" data-product-info data-product-id="{{ product.id }}">
+<div
+  class="product-info"
+  data-product-info
+  data-product-id="{{ product.id }}"
+  data-product='{{ product | json | escape }}'>
   
   {%- comment -%} 1. Product Vendor {%- endcomment -%}
   {%- if product.vendor != blank -%}

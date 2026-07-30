@@ -1,7 +1,7 @@
 {%- comment -%} 
-    Section: main-product.liquid
-    Theme: Lumiere Theme
-    Description: Main product page section that orchestrates the product gallery and information layout. 
+        Section: main-product.liquid
+        Theme: Lumiere Theme
+        Description: Main product page section that orchestrates the product gallery and information layout. 
 {%- endcomment -%}
 
 <section
@@ -39,6 +39,8 @@
   </div>
 
 </section>
+{{ 'product-info.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-info.js' | asset_url }}" defer></script>
 
 {% schema %}
   {

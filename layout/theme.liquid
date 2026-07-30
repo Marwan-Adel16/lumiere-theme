@@ -81,6 +81,7 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'component-product.css' | asset_url | stylesheet_tag }}
+    {{ 'product-info.css' | asset_url | stylesheet_tag }}
     {{ 'component-collection.css' | asset_url | stylesheet_tag }}
     {{ 'component-cart.css' | asset_url | stylesheet_tag }}
     {{ 'component-search.css' | asset_url | stylesheet_tag }}
@@ -99,6 +100,7 @@
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-collection.js' | asset_url }}" defer></script>
     <script src="{{ 'product.js' | asset_url }}" defer></script>
+    <script src="{{ 'product-info.js' | asset_url }}" defer></script>
     <script src="{{ 'collection.js' | asset_url }}" defer></script>
     <script src="{{ 'cart.js' | asset_url }}" defer></script>
   </head>

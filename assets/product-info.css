@@ -1,0 +1,158 @@
+/* ======================================================
+   PRODUCT INFO
+====================================================== */
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.product-info__vendor {
+  font-size: 14px;
+  color: #777;
+}
+
+.product-info__vendor a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-info__title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.product-info__pricing-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.product-info__price {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.product-info__compare-price {
+  font-size: 20px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.product-info__badge-sale {
+  background: #d10000;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.product-info__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.product-info__meta-label {
+  font-weight: 600;
+}
+
+.product-form__actions-group {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.product-form__buttons {
+  flex: 1;
+}
+
+.product-form__add-to-cart {
+  width: 100%;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.quantity-selector__btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+.quantity-selector__input {
+  width: 60px;
+  border: none;
+  text-align: center;
+  outline: none;
+}
+
+.product-info__extras {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.action-btn:hover {
+  background: #111;
+  color: #fff;
+}
+
+.product-info__tags-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.product-info__tags-item {
+  background: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 990px) {
+  .product-form__actions-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .product-info__title {
+    font-size: 32px;
+  }
+
+  .product-info__price {
+    font-size: 28px;
+  }
+}
