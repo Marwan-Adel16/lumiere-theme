@@ -1,7 +1,7 @@
 {%- comment -%} 
-                                Section: main-collection.liquid
-                                Theme: Lumiere Theme
-                                Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
+                                  Section: main-collection.liquid
+                                  Theme: Lumiere Theme
+                                  Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
 {%- endcomment -%}
 
 <section
@@ -54,6 +54,26 @@
         data-collection-toolbar>
 
         <div class="collection-toolbar__left">
+          <button
+            type="button"
+            class="collection-toolbar__filter-button"
+            data-open-filters>
+
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none">
+              <path
+                d="M4 6H20M7 12H17M10 18H14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round" />
+            </svg>
+
+            <span>Filter</span>
+
+          </button>
 
 
           {% render 'filter-drawer'
