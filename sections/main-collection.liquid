@@ -1,7 +1,7 @@
 {%- comment -%} 
-                              Section: main-collection.liquid
-                              Theme: Lumiere Theme
-                              Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
+                                Section: main-collection.liquid
+                                Theme: Lumiere Theme
+                                Description: Main collection page structural template including header, toolbar, product grid, and pagination. 
 {%- endcomment -%}
 
 <section
@@ -55,12 +55,12 @@
 
         <div class="collection-toolbar__left">
 
-          
-            {% render 'filter-drawer'
-              ,
+
+          {% render 'filter-drawer'
+            ,
  collection: collection
-            %}
-          {% endif %}
+          %}
+
 
           <div class="collection-toolbar__count">
             {{ collection.products_count }}
